@@ -9,11 +9,15 @@ namespace Adventure
     {
         static void Main(string[] args)
         {
+            var echo = new EchoCommand();
+            var unknown = new UnknownCommand();
             do 
             {
                 var input = Console.ReadLine();
                 if (input.Trim() == "exit") break;
-                Console.WriteLine(input);
+
+                if (echo.IsValid(input)) echo.Execute(input);
+                else if (unknown.IsValid(input)) unknown.Execute(input);
             }
             while (true); ;
         }
