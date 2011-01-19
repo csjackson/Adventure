@@ -9,6 +9,13 @@ namespace Adventure
     {
         static void Main(string[] args)
         {
+            do 
+            {
+                var input = Console.ReadLine();
+                if (input.Trim() == "exit") break;
+                Console.WriteLine(input);
+            }
+            while (true); ;
         }
     }
 }
