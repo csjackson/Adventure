@@ -9,17 +9,24 @@ namespace Adventure
     {
         static void Main(string[] args)
         {
-            var echo = new EchoCommand();
-            var unknown = new UnknownCommand();
+            List<ICommand> commands = new List<ICommand>();
+            commands.Add(new EchoCommand());
+            commands.Add(new YellCommand());
+            commands.Add(new DanceCommand());
+            commands.Add(new WaveCommand());
+            ICommand defaultCommand = new UnknownCommand();
+            
             do 
             {
                 var input = Console.ReadLine();
                 if (input.Trim() == "exit") break;
 
-                if (echo.IsValid(input)) echo.Execute(input);
-                else if (unknown.IsValid(input)) unknown.Execute(input);
+                var cmd = commands.FirstOrDefault(c => c.IsValid(input));
+                if (cmd == null) cmd = defaultCommand;
+                cmd.Execute(input);
             }
             while (true); ;
         }
     }
+
 }
