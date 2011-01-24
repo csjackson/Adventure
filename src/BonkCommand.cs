@@ -5,17 +5,16 @@ using System.Text;
 
 namespace Adventure
 {
-    class WaveCommand : BaseCommand, ICommand
+    class BonkCommand : BaseCommand, ICommand
     {
-   
         public bool IsValid(string input)
         {
-            return IsFirstWord(input, "wave");
+            return IsFirstWord(input, "bonk");
         }
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You wave at {0}.", output));
+            Console.WriteLine(String.Format("You bonk {0} on the head. Ouch!", output));
         }
     }
 }

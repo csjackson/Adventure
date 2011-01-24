@@ -5,17 +5,16 @@ using System.Text;
 
 namespace Adventure
 {
-    class WaveCommand : BaseCommand, ICommand
+    class AngryCommand : BaseCommand, ICommand
     {
-   
         public bool IsValid(string input)
         {
-            return IsFirstWord(input, "wave");
+            return IsFirstWord(input, "angry");
         }
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You wave at {0}.", output));
+            Console.WriteLine(String.Format("You shake your fist at {0} in anger.", output));
         }
     }
 }
