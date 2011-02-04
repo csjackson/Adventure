@@ -13,7 +13,7 @@ namespace Adventure
             commands.Add(new EchoCommand());
             commands.Add(new YellCommand());
             commands.Add(new DanceCommand());
-            commands.Add(new WaveCommand());
+            commands.Add(new WaveCommand(new ConsoleFacade()));
             commands.Add(new AngryCommand());
             commands.Add(new ClapCommand());
             commands.Add(new BonkCommand());

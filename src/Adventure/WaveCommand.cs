@@ -5,17 +5,21 @@ using System.Text;
 
 namespace Adventure
 {
-    class WaveCommand : BaseCommand, ICommand
+    public class WaveCommand : BaseCommand, ICommand
     {
-   
+        private IConsoleFacade console;
+
+        public WaveCommand(IConsoleFacade console)
+        {
+            this.console = console;
+        }
         public bool IsValid(string input)
         {
             return IsFirstWord(input, "wave");
         }
         public void Execute(string input)
         {
-            var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You wave at {0}.", output));
+            console.WriteLine("You wave at {0}.", GetAllButFirstWord(input));
         }
     }
 }
