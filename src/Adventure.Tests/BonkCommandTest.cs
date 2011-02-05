@@ -5,10 +5,11 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 
+
 namespace Adventure.Tests
 {
     [TestClass]
-    public class WaveCommandTest
+    public class BonkCommandTest
     {
         private IConsoleFacade mock;
         private WaveCommand cmd;
@@ -20,9 +21,7 @@ namespace Adventure.Tests
             {
                 WrittenLine = string.Format(format, arg);
             }
-
         }
-
         [TestInitialize]
         public void Before_Each_Test()
         {
@@ -31,7 +30,7 @@ namespace Adventure.Tests
         }
 
         [TestMethod]
-        public void IsValid_Should_Return_False_for_Invalid_String()
+       public void IsValid_Should_Return_False_for_Invalid_String()
         {
             // Arrange
             // Already created via TestInitialize
@@ -47,21 +46,21 @@ namespace Adventure.Tests
             // Arrange
 
             // Act
-            var result = cmd.IsValid("wave bob");
+            var result = cmd.IsValid("bonk bob");
 
             // Assert
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public void Execute_Should_Write_To_Console_Wave_Plus_All_But_First_Word()
+        public void Execute_Should_Write_To_Console_Bonk_Plus_All_But_First_Word()
         {
             // Arrange
-        
+
             // Act
-            cmd.Execute("wave to my friends");
+            cmd.Execute("bonk someone");
 
             // Assert
-            mock.AssertWasCalled(m => m.WriteLine("You wave at {0}.", "to my friends"));
+            mock.AssertWasCalled(m => m.WriteLine("You bonk {0} on the head. Ouch!", "someone"));
         }
     }
 }

@@ -49,6 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BonkCommandTest.cs" />
+    <Compile Include="AngryCommandTest.cs" />
+    <Compile Include="ClapCommandTest.cs" />
+    <Compile Include="DanceCommandTest.cs" />
+    <Compile Include="GlareCommandTest.cs" />
+    <Compile Include="PanicCommandTest.cs" />
+    <Compile Include="EchoCommandTest.cs" />
+    <Compile Include="YellCommandTest.cs" />
     <Compile Include="WaveCommandTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using Rhino.Mocks;
 namespace Adventure.Tests
 {
     [TestClass]
-    public class WaveCommandTest
+    public class ClapCommandTest
     {
         private IConsoleFacade mock;
         private WaveCommand cmd;
@@ -47,7 +47,7 @@ namespace Adventure.Tests
             // Arrange
 
             // Act
-            var result = cmd.IsValid("wave bob");
+            var result = cmd.IsValid("clap bob");
 
             // Assert
             Assert.IsTrue(result);
@@ -56,12 +56,12 @@ namespace Adventure.Tests
         public void Execute_Should_Write_To_Console_Wave_Plus_All_But_First_Word()
         {
             // Arrange
-        
+
             // Act
-            cmd.Execute("wave to my friends");
+            cmd.Execute("clap blah");
 
             // Assert
-            mock.AssertWasCalled(m => m.WriteLine("You wave at {0}.", "to my friends"));
+            mock.AssertWasCalled(m => m.WriteLine("You applaud at {0}. Bravo!", "blah"));
         }
     }
 }
