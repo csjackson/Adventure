@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Adventure 
 {
-    class ClapCommand : BaseCommand, ICommand
+    public class ClapCommand : BaseCommand, ICommand
     {
+        private IConsoleFacade storage;
+
+        public ClapCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
            public bool IsValid(string input)
         {
             return IsFirstWord(input, "clap");
@@ -14,7 +20,7 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You applaud at {0}. Bravo!", output));
+            storage.WriteLine(String.Format("You applaud at {0}. Bravo!", output));
          }
 }
 }

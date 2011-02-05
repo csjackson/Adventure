@@ -5,14 +5,18 @@ using System.Text;
 
 namespace Adventure
 {
-    class UnknownCommand : ICommand
+    public class UnknownCommand : ICommand
     {
+          private IConsoleFacade storage;
 
-        #region ICommand Members
+        public UnknownCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
 
         public void Execute(string input)
         {
-            Console.WriteLine("I don't understand.");
+            storage.WriteLine("I don't understand.");
         }
 
         public bool IsValid(string input)
@@ -20,6 +24,5 @@ namespace Adventure
             return true;
         }
 
-        #endregion
     }
 }

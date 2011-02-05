@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Adventure
 {
-    class AngryCommand : BaseCommand, ICommand
+    public class AngryCommand : BaseCommand, ICommand
     {
+        private IConsoleFacade storage;
+
+        public AngryCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
         public bool IsValid(string input)
         {
             return IsFirstWord(input, "angry");
@@ -14,7 +20,7 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You shake your fist at {0} in anger.", output));
+            storage.WriteLine(String.Format("You shake your fist at {0} in anger.", output));
         }
     }
 }

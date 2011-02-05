@@ -7,11 +7,11 @@ namespace Adventure
 {
     public class WaveCommand : BaseCommand, ICommand
     {
-        private IConsoleFacade console;
+        private IConsoleFacade storage;
 
         public WaveCommand(IConsoleFacade console)
         {
-            this.console = console;
+            this.storage = console;
         }
         public bool IsValid(string input)
         {
@@ -19,7 +19,7 @@ namespace Adventure
         }
         public void Execute(string input)
         {
-            console.WriteLine("You wave at {0}.", GetAllButFirstWord(input));
+            storage.WriteLine("You wave at {0}.", GetAllButFirstWord(input));
         }
     }
 }

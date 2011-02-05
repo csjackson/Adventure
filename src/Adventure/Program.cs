@@ -10,16 +10,16 @@ namespace Adventure
         static void Main(string[] args)
         {
             List<ICommand> commands = new List<ICommand>();
-            commands.Add(new EchoCommand());
-            commands.Add(new YellCommand());
-            commands.Add(new DanceCommand());
+            commands.Add(new EchoCommand(new ConsoleFacade()));
+            commands.Add(new YellCommand(new ConsoleFacade()));
+            commands.Add(new DanceCommand(new ConsoleFacade()));
             commands.Add(new WaveCommand(new ConsoleFacade()));
-            commands.Add(new AngryCommand());
-            commands.Add(new ClapCommand());
-            commands.Add(new BonkCommand());
-            commands.Add(new GlareCommand());
-            commands.Add(new PanicCommand());
-            ICommand defaultCommand = new UnknownCommand();
+            commands.Add(new AngryCommand(new ConsoleFacade()));
+            commands.Add(new ClapCommand(new ConsoleFacade()));
+            commands.Add(new BonkCommand(new ConsoleFacade()));
+            commands.Add(new GlareCommand(new ConsoleFacade()));
+            commands.Add(new PanicCommand(new ConsoleFacade()));
+            ICommand defaultCommand = new UnknownCommand(new ConsoleFacade());
             
             do 
             {

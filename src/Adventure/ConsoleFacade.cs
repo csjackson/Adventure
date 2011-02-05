@@ -5,13 +5,26 @@ namespace Adventure
     public class ConsoleFacade : IConsoleFacade
     {
 
-        #region IConsoleFacade Members
 
         public void WriteLine(string format, params object[] arg)
         {
             Console.WriteLine(format, arg);
         }
+        public ConsoleColor ForegroundColor
+        {
+            get
+            {
+                return Console.ForegroundColor;
+            }
+            set
+            {
+                Console.ForegroundColor = value;
+            }
+        }
 
-        #endregion
+        public void ResetColor()
+        {
+            Console.ResetColor();
+        }
     }
 }

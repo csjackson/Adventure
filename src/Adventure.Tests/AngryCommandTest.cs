@@ -11,23 +11,13 @@ namespace Adventure.Tests
     public class AngryCommandTest
     {
         private IConsoleFacade mock;
-        private WaveCommand cmd;
-        public class MockConsole : IConsoleFacade
-        {
-            public string WrittenLine { get; set; }
-
-            public void WriteLine(string format, params object[] arg)
-            {
-                WrittenLine = string.Format(format, arg);
-            }
-
-        }
+        private AngryCommand cmd;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            cmd = new WaveCommand(mock);
+            cmd = new AngryCommand(mock);
         }
 
         [TestMethod]
@@ -53,7 +43,7 @@ namespace Adventure.Tests
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public void Execute_Should_Write_To_Console_Wave_Plus_All_But_First_Word()
+        public void Execute_Should_Write_To_Console_Angry_Plus_All_But_First_Word()
         {
             // Arrange
 
@@ -61,7 +51,7 @@ namespace Adventure.Tests
             cmd.Execute("angry blah");
 
             // Assert
-            mock.AssertWasCalled(m => m.WriteLine("You shake your fist at {0} in anger.", "blah"));
+            mock.AssertWasCalled(m => m.WriteLine("You shake your fist at blah in anger."));
         }
     }
 }

@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Adventure
 {
-    class PanicCommand : BaseCommand, ICommand
+    public class PanicCommand : BaseCommand, ICommand
     {
+          private IConsoleFacade storage;
+
+        public PanicCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
         public bool IsValid(string input)
         {
             return IsFirstWord(input, "panic");
@@ -14,7 +20,7 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("One look at {0} sends you into a panic.", output));
+            storage.WriteLine("One look at {0} sends you into a panic.", output);
 
         }
     }

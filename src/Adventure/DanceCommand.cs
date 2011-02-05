@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Adventure
 {
-    class DanceCommand : BaseCommand, ICommand
+    public class DanceCommand : BaseCommand, ICommand
     {
+          private IConsoleFacade storage;
+
+        public DanceCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
    
         public bool IsValid(string input)
         {
@@ -15,7 +21,7 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You gracefully dance the {0}.", output));
+            storage.WriteLine("You gracefully dance the {0}.", output);
                 
         }
     }

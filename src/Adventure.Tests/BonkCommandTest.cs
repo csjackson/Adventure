@@ -12,21 +12,13 @@ namespace Adventure.Tests
     public class BonkCommandTest
     {
         private IConsoleFacade mock;
-        private WaveCommand cmd;
-        public class MockConsole : IConsoleFacade
-        {
-            public string WrittenLine { get; set; }
+        private BonkCommand cmd;
 
-            public void WriteLine(string format, params object[] arg)
-            {
-                WrittenLine = string.Format(format, arg);
-            }
-        }
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            cmd = new WaveCommand(mock);
+            cmd = new BonkCommand(mock);
         }
 
         [TestMethod]

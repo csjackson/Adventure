@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Adventure
 {
-    class GlareCommand : BaseCommand, ICommand
+    public class GlareCommand : BaseCommand, ICommand
     {
+          private IConsoleFacade storage;
+
+        public GlareCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
         public bool IsValid(string input)
         {
             return IsFirstWord(input, "glare");
@@ -14,7 +20,7 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You fix {0} with a baleful glare.", output));
+            storage.WriteLine(String.Format("You fix {0} with a baleful glare.", output));
 
         }
     }

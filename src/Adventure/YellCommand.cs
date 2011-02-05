@@ -5,9 +5,14 @@ using System.Text;
 
 namespace Adventure
 {
-    class YellCommand : BaseCommand, ICommand
+    public class YellCommand : BaseCommand, ICommand
     {
+          private IConsoleFacade storage;
 
+        public YellCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
         public bool IsValid(string input)
         {
             return IsFirstWord(input, "yell");
@@ -16,9 +21,9 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input).ToUpper();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(output);
-            Console.ResetColor();
+            storage.ForegroundColor = ConsoleColor.Red;
+            storage.WriteLine(output);
+            storage.ResetColor();
         }
 
     }

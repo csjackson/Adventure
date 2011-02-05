@@ -12,17 +12,7 @@ namespace Adventure.Tests
     {
         private IConsoleFacade mock;
         private WaveCommand cmd;
-        public class MockConsole : IConsoleFacade
-        {
-            public string WrittenLine { get; set; }
-
-            public void WriteLine(string format, params object[] arg)
-            {
-                WrittenLine = string.Format(format, arg);
-            }
-
-        }
-
+   
         [TestInitialize]
         public void Before_Each_Test()
         {

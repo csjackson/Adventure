@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Adventure
 {
-    class BonkCommand : BaseCommand, ICommand
+    public class BonkCommand : BaseCommand, ICommand
     {
+        private IConsoleFacade storage;
+
+        public BonkCommand(IConsoleFacade console)
+        {
+            this.storage = console;
+        }
         public bool IsValid(string input)
         {
             return IsFirstWord(input, "bonk");
@@ -14,7 +20,7 @@ namespace Adventure
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            Console.WriteLine(String.Format("You bonk {0} on the head. Ouch!", output));
+            storage.WriteLine("You bonk {0} on the head. Ouch!", output);
         }
     }
 }

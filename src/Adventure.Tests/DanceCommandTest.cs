@@ -11,23 +11,13 @@ namespace Adventure.Tests
     public class DanceCommandTest
     {
         private IConsoleFacade mock;
-        private WaveCommand cmd;
-        public class MockConsole : IConsoleFacade
-        {
-            public string WrittenLine { get; set; }
-
-            public void WriteLine(string format, params object[] arg)
-            {
-                WrittenLine = string.Format(format, arg);
-            }
-
-        }
-
+        private DanceCommand cmd;
+  
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            cmd = new WaveCommand(mock);
+            cmd = new DanceCommand(mock);
         }
 
         [TestMethod]
@@ -53,7 +43,7 @@ namespace Adventure.Tests
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public void Execute_Should_Write_To_Console_Wave_Plus_All_But_First_Word()
+        public void Execute_Should_Write_To_Console_Dance_Plus_All_But_First_Word()
         {
             // Arrange
 
@@ -61,7 +51,7 @@ namespace Adventure.Tests
             cmd.Execute("dance blah");
 
             // Assert
-            mock.AssertWasCalled(m => m.WriteLine("YYou gracefully dance the {0}.", "blah"));
+            mock.AssertWasCalled(m => m.WriteLine("You gracefully dance the {0}.", "blah"));
         }
     }
 }
