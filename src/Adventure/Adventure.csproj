@@ -53,6 +53,7 @@
     <Compile Include="GlareCommand.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IConsoleFacade.cs" />
+    <Compile Include="LolCommand.cs" />
     <Compile Include="PanicCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
