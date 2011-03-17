@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Adventure.Data;
 
 namespace Adventure
 {
@@ -19,6 +20,7 @@ namespace Adventure
             commands.Add(new BonkCommand(new ConsoleFacade()));
             commands.Add(new GlareCommand(new ConsoleFacade()));
             commands.Add(new PanicCommand(new ConsoleFacade()));
+            commands.Add(new CreateRoomCommand(new ConsoleFacade(), new Repository<Room>(new UnitOfWork())));
             ICommand defaultCommand = new UnknownCommand(new ConsoleFacade());
             
             do 

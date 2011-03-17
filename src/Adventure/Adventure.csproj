@@ -36,6 +36,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,23 +46,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AngryCommand.cs" />
-    <Compile Include="BaseCommand.cs" />
-    <Compile Include="BonkCommand.cs" />
-    <Compile Include="ClapCommand.cs" />
+    <Compile Include="Commands\AngryCommand.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\BonkCommand.cs" />
+    <Compile Include="Commands\ClapCommand.cs" />
+    <Compile Include="Commands\DescribeRoomCommand.cs" />
     <Compile Include="ConsoleFacade.cs" />
-    <Compile Include="DanceCommand.cs" />
-    <Compile Include="EchoCommand.cs" />
-    <Compile Include="GlareCommand.cs" />
+    <Compile Include="Commands\DanceCommand.cs" />
+    <Compile Include="Commands\EchoCommand.cs" />
+    <Compile Include="Commands\GlareCommand.cs" />
+    <Compile Include="Data\Domain.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Domain.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\IUnitOfWork.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Data\UnitOfWork.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IConsoleFacade.cs" />
-    <Compile Include="LolCommand.cs" />
-    <Compile Include="PanicCommand.cs" />
+    <Compile Include="Commands\LolCommand.cs" />
+    <Compile Include="Commands\PanicCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnknownCommand.cs" />
-    <Compile Include="WaveCommand.cs" />
-    <Compile Include="YellCommand.cs" />
+    <Compile Include="Commands\UnknownCommand.cs" />
+    <Compile Include="Commands\WaveCommand.cs" />
+    <Compile Include="Commands\YellCommand.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EntityDeploy Include="Data\Domain.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Domain.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
