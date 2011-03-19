@@ -5,24 +5,20 @@ using System.Text;
 
 namespace Adventure
 {
-    public class UnknownCommand : ICommand
+    public class UnknownInputHandler : IUnknownInputHandler 
     {
           private IConsoleFacade storage;
 
-        public UnknownCommand(IConsoleFacade console)
+        public UnknownInputHandler(IConsoleFacade console)
         {
             this.storage = console;
         }
 
-        public void Execute(string input)
+        public void HandleUnknownInput(string input)
         {
             storage.WriteLine("I don't understand.");
         }
 
-        public bool IsValid(string input)
-        {
-            return true;
-        }
 
     }
 }

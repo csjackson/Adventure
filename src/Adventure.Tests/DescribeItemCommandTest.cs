@@ -64,12 +64,15 @@ namespace Adventure.Tests
         public void Execute_Should_Set_the_Description_of_Ball_to_A_Red_Rubber_Ball_period()
         {
             // Arrange
-
+            var ball = new Item() { ItemName = "Ball" };
+            var ring = new Item() { ItemName = "Ring" };
+            var list = new List<Item>() { ball, ring };
+            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
             // Act
             cmd.Execute("item Ball.desc = A red rubber ball.");
 
             // Assert
-            repository.AssertWasCalled(m => m.Equals(repository));
+            Assert.AreEqual("A red rubber ball.", ball.ItemDescription);
             // It's not enough to assert that a DB call was made.
             // How can I assert that a specific field was chosen?
             repository.AssertWasCalled(m => m.Dispose());

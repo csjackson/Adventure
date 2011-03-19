@@ -64,13 +64,17 @@ namespace Adventure.Tests
         public void Execute_Should_Set_the_Description_of_Hallway_to_Its_a_Hallway_Period()
         {
             // Arrange
+            var hallway = new Room() { RoomName = "Hallway" };
+            var bar = new Room() { RoomName = "Bar" };
+            var list = new List<Room>() { hallway, bar };
+            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
 
             // Act
             cmd.Execute("place Hallway.desc = It's a hallway.");
 
             // Assert
-            repository.AssertWasCalled(m => m.AsQueryable());
-                // It's not enough to assert that a DB call was made.
+            Assert.AreEqual("It's a hallway.", hallway.Description);
+            // It's not enough to assert that a DB call was made.
                 // How can I assert that a specific field was chosen?
             repository.AssertWasCalled(m => m.Dispose());
         }

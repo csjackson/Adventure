@@ -19,12 +19,21 @@ namespace Adventure.Data
         where T : EntityObject
     {
         private IUnitOfWork uow;
-        private ObjectSet<T> objectSet;
+        private ObjectSet<T> _objectSet;
+        private ObjectSet<T> objectSet
+        {
+            get
+            {
+                if (_objectSet == null)
+                    _objectSet = uow.Context.CreateObjectSet<T>();
+                return _objectSet;
+            }
+        }
 
         public Repository(IUnitOfWork uow)
         {
             this.uow = uow;
-            objectSet = uow.Context.CreateObjectSet<T>();
+
         }
         public void Add(T entity) // create
         {

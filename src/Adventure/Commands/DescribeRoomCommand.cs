@@ -27,7 +27,7 @@ namespace Adventure.Commands
         {
             var output = GetAllButFirstWord(input);
             var place = output.Split('.')[0];
-            var roomDescription = string.Join("=", input.Trim().Split('=').Skip(1));
+            var roomDescription = string.Join("=", input.Trim().Split('=').Skip(1)).Trim();
 
             using (repository)
             {

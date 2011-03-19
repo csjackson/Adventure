@@ -4,40 +4,74 @@ using System.Linq;
 using System.Text;
 using Adventure.Data;
 using Adventure.Commands;
+using Castle.Windsor;
+using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 
 namespace Adventure
 {
     class Program
     {
+        private static IWindsorContainer BuildContainer()
+        {
+            var container = new WindsorContainer();
+            container.Kernel.Resolver.AddSubResolver(
+                new ArrayResolver(container.Kernel, false));
+            container.Register(
+                Component.For<CommandController>().LifeStyle.Transient,
+                Component.For<IConsoleFacade>().ImplementedBy<ConsoleFacade>().LifeStyle.Transient,
+                Component.For<IUnitOfWork>().ImplementedBy<UnitOfWork>()
+                    .LifeStyle.Transient,
+                Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>))
+                    .LifeStyle.Transient,
+                Component.For<IUnknownInputHandler>().ImplementedBy<UnknownInputHandler>()
+                    .LifeStyle.Transient,
+                AllTypes.FromAssemblyContaining<EchoCommand>().BasedOn<ICommand>()
+                    .Configure(c=> c.LifeStyle.Transient)
+                    .WithService.FromInterface(typeof(ICommand))
+                );
+
+            return container;
+        }
         static void Main(string[] args)
         {
-            List<ICommand> commands = new List<ICommand>();
-            commands.Add(new EchoCommand(new ConsoleFacade()));
-            commands.Add(new YellCommand(new ConsoleFacade()));
-            commands.Add(new DanceCommand(new ConsoleFacade()));
-            commands.Add(new WaveCommand(new ConsoleFacade()));
-            commands.Add(new AngryCommand(new ConsoleFacade()));
-            commands.Add(new ClapCommand(new ConsoleFacade()));
-            commands.Add(new BonkCommand(new ConsoleFacade()));
-            commands.Add(new GlareCommand(new ConsoleFacade()));
-            commands.Add(new PanicCommand(new ConsoleFacade()));
-            commands.Add(new CreateRoomCommand(new ConsoleFacade(), new Repository<Room>(new UnitOfWork())));
-            commands.Add(new CreateItemCommand(new ConsoleFacade(), new Repository<Item>(new UnitOfWork())));
-            commands.Add(new DescribeRoomCommand(new ConsoleFacade(), new Repository<Room>(new UnitOfWork())));
-            commands.Add(new DescribeItemCommand(new ConsoleFacade(), new Repository<Item>(new UnitOfWork())));
-            ICommand defaultCommand = new UnknownCommand(new ConsoleFacade());
+            var container = BuildContainer();
+            bool cont = false;
             
             do 
             {
                 var input = Console.ReadLine();
-                if (input.Trim() == "exit") break;
-
-                var cmd = commands.FirstOrDefault(c => c.IsValid(input));
-                if (cmd == null) cmd = defaultCommand;
-                cmd.Execute(input);
+                var cntrl = container.Resolve<CommandController>();
+                cont = cntrl.Parse(input);
+                container.Release(cntrl);
             }
-            while (true); ;
+            while (cont); ;
         }
     }
 
+    public class CommandController
+    {
+        private ICommand[] commands;
+        private IUnknownInputHandler unknown;
+        
+        public CommandController(ICommand[] commands, IUnknownInputHandler unknown)
+        {
+            this.commands = commands;
+            this.unknown = unknown;
+            
+        }
+        public bool Parse(string input)
+        {
+            if (input.Trim() == "exit") return false;
+
+            var cmd = commands.FirstOrDefault(c => c.IsValid(input));
+            if (cmd == null)
+            {
+                unknown.HandleUnknownInput(input);
+                return true;
+            }
+            cmd.Execute(input);
+            return true;
+        }
+    }
 }

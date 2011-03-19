@@ -24,6 +24,7 @@ namespace Adventure.Data
             if (!aborted)
                 Context.SaveChanges();
             Context.Dispose();
+            aborted = true;
         }
 
     }
