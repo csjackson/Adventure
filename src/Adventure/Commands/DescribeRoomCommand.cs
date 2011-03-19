@@ -20,22 +20,27 @@ namespace Adventure.Commands
 
         public bool IsValid(string input)
         {
-           return (IsFirstWord(input, "set") && (input.Contains(".name")));
+           return (IsFirstWord(input, "place") && (input.Contains(".desc")));
         }
 
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            var roomDescription = input.Trim().Split('=').Skip(1).ToString();
-          
-            var Holder = 
-                ;
+            var place = output.Split('.')[0];
+            var roomDescription = string.Join("=", input.Trim().Split('=').Skip(1));
 
             using (repository)
             {
-                repository.Add(new Room() { RoomName = output });
+                var room = repository.AsQueryable()
+                    .FirstOrDefault(qq => qq.RoomName == place);
+                if (room == null)
+                {
+                    console.WriteLine("I do not recognize \"{0}\".", place);
+                    return;
+                }
+                room.Description = roomDescription;
             }
-            console.WriteLine("Room Description Saved.");
+          
         }
 
     }

@@ -50,6 +50,8 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\BonkCommand.cs" />
     <Compile Include="Commands\ClapCommand.cs" />
+    <Compile Include="Commands\CreateItemCommand.cs" />
+    <Compile Include="Commands\DescribeItemCommand.cs" />
     <Compile Include="Commands\DescribeRoomCommand.cs" />
     <Compile Include="ConsoleFacade.cs" />
     <Compile Include="Commands\DanceCommand.cs" />

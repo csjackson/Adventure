@@ -19,7 +19,8 @@ namespace Adventure.Tests
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            cmd = new CreateRoomCommand(mock, IRepository<Room> repository);
+            repository = MockRepository.GenerateMock<IRepository<Room>>();
+            cmd = new CreateRoomCommand(mock, repository);
         }
 
         [TestMethod]
@@ -54,8 +55,9 @@ namespace Adventure.Tests
             cmd.Execute("createroom Hallway");
 
             // Assert
-            Assert.Fail();
-
+            repository.AssertWasCalled(m => m.Add(Arg<Room>.Is.Anything));
+            repository.AssertWasCalled(m => m.Dispose());
+        }
 
     }
 }

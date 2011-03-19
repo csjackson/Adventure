@@ -4,24 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Adventure.Commands;
 using Adventure.Data;
+using Adventure.Commands;
+
 
 namespace Adventure.Tests
 {
     [TestClass]
-    public class DescribeRoomCommandTest
+    public class CreateItemCommandTest
     {
         private IConsoleFacade mock;
-        private DescribeRoomCommand cmd;
-        private IRepository<Room> repository;
+        private CreateItemCommand cmd;
+        private IRepository<Item> repository;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            repository = MockRepository.GenerateMock<IRepository<Room>>();
-            cmd = new DescribeRoomCommand(mock, repository);
+            repository = MockRepository.GenerateMock<IRepository<Item>>();
+            cmd = new CreateItemCommand(mock, repository);
         }
 
         [TestMethod]
@@ -37,42 +38,28 @@ namespace Adventure.Tests
         }
 
         [TestMethod]
-        public void isValid_Should_Return_False_Without_dotName_in_String()
-        {
-            // Arrange
-            // created vua TestInitialize
-
-            // Act
-            var result = cmd.IsValid("place Hallway.foo = It's a hallway.");
-
-            // Assert
-            Assert.IsFalse(result);
-
-        }
-        [TestMethod]
         public void isValid_Should_Return_True_for_Valid_String()
         {
             // Arrange
 
             // Act
-            var result = cmd.IsValid("place Hallway.desc = It's a hallway.");
+            var result = cmd.IsValid("createitem ball");
 
             // Assert
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public void Execute_Should_Set_the_Description_of_Hallway_to_Its_a_Hallway_Period()
+        public void Execute_Should_Create_a_New_DB_Item_Named_Hallway()
         {
             // Arrange
 
             // Act
-            cmd.Execute("place Hallway.desc = It's a hallway.");
+            cmd.Execute("createroom Hallway");
 
             // Assert
-            repository.AssertWasCalled(m => m.AsQueryable());
-                // It's not enough to assert that a DB call was made.
-                // How can I assert that a specific field was chosen?
+            repository.AssertWasCalled(m => m.Add(Arg<Item>.Is.Anything));
             repository.AssertWasCalled(m => m.Dispose());
         }
+
     }
 }

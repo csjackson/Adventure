@@ -83,5 +83,11 @@
     <Build Include="Rooms.table.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Scripts\Items.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="SomeTableOrView.ForeignKeyItemsToRooms.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>

@@ -16,6 +16,11 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
+
+[assembly: EdmRelationshipAttribute("Adventure.Domain", "ForeignKeyItemsToRooms", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Adventure.Data.Room), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Adventure.Data.Item), true)]
+
+#endregion
 
 namespace Adventure.Data
 {
@@ -80,6 +85,38 @@ namespace Adventure.Data
             }
         }
         private ObjectSet<Room> _Rooms;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<C__RefactorLog> C__RefactorLog
+        {
+            get
+            {
+                if ((_C__RefactorLog == null))
+                {
+                    _C__RefactorLog = base.CreateObjectSet<C__RefactorLog>("C__RefactorLog");
+                }
+                return _C__RefactorLog;
+            }
+        }
+        private ObjectSet<C__RefactorLog> _C__RefactorLog;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Item> Items
+        {
+            get
+            {
+                if ((_Items == null))
+                {
+                    _Items = base.CreateObjectSet<Item>("Items");
+                }
+                return _Items;
+            }
+        }
+        private ObjectSet<Item> _Items;
 
         #endregion
         #region AddTo Methods
@@ -91,6 +128,22 @@ namespace Adventure.Data
         {
             base.AddObject("Rooms", room);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the C__RefactorLog EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToC__RefactorLog(C__RefactorLog c__RefactorLog)
+        {
+            base.AddObject("C__RefactorLog", c__RefactorLog);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Items EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToItems(Item item)
+        {
+            base.AddObject("Items", item);
+        }
 
         #endregion
     }
@@ -99,6 +152,231 @@ namespace Adventure.Data
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Adventure.Domain", Name="C__RefactorLog")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class C__RefactorLog : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new C__RefactorLog object.
+        /// </summary>
+        /// <param name="operationKey">Initial value of the OperationKey property.</param>
+        public static C__RefactorLog CreateC__RefactorLog(global::System.Guid operationKey)
+        {
+            C__RefactorLog c__RefactorLog = new C__RefactorLog();
+            c__RefactorLog.OperationKey = operationKey;
+            return c__RefactorLog;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid OperationKey
+        {
+            get
+            {
+                return _OperationKey;
+            }
+            set
+            {
+                if (_OperationKey != value)
+                {
+                    OnOperationKeyChanging(value);
+                    ReportPropertyChanging("OperationKey");
+                    _OperationKey = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("OperationKey");
+                    OnOperationKeyChanged();
+                }
+            }
+        }
+        private global::System.Guid _OperationKey;
+        partial void OnOperationKeyChanging(global::System.Guid value);
+        partial void OnOperationKeyChanged();
+
+        #endregion
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Adventure.Domain", Name="Item")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Item : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Item object.
+        /// </summary>
+        /// <param name="itemId">Initial value of the ItemId property.</param>
+        /// <param name="roomId">Initial value of the RoomId property.</param>
+        public static Item CreateItem(global::System.Int32 itemId, global::System.Int32 roomId)
+        {
+            Item item = new Item();
+            item.ItemId = itemId;
+            item.RoomId = roomId;
+            return item;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ItemId
+        {
+            get
+            {
+                return _ItemId;
+            }
+            set
+            {
+                if (_ItemId != value)
+                {
+                    OnItemIdChanging(value);
+                    ReportPropertyChanging("ItemId");
+                    _ItemId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemId");
+                    OnItemIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ItemId;
+        partial void OnItemIdChanging(global::System.Int32 value);
+        partial void OnItemIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ItemName
+        {
+            get
+            {
+                return _ItemName;
+            }
+            set
+            {
+                OnItemNameChanging(value);
+                ReportPropertyChanging("ItemName");
+                _ItemName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ItemName");
+                OnItemNameChanged();
+            }
+        }
+        private global::System.String _ItemName;
+        partial void OnItemNameChanging(global::System.String value);
+        partial void OnItemNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ItemDescription
+        {
+            get
+            {
+                return _ItemDescription;
+            }
+            set
+            {
+                OnItemDescriptionChanging(value);
+                ReportPropertyChanging("ItemDescription");
+                _ItemDescription = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ItemDescription");
+                OnItemDescriptionChanged();
+            }
+        }
+        private global::System.String _ItemDescription;
+        partial void OnItemDescriptionChanging(global::System.String value);
+        partial void OnItemDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 RoomId
+        {
+            get
+            {
+                return _RoomId;
+            }
+            set
+            {
+                OnRoomIdChanging(value);
+                ReportPropertyChanging("RoomId");
+                _RoomId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("RoomId");
+                OnRoomIdChanged();
+            }
+        }
+        private global::System.Int32 _RoomId;
+        partial void OnRoomIdChanging(global::System.Int32 value);
+        partial void OnRoomIdChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyItemsToRooms", "Room")]
+        public Room Room
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("Adventure.Domain.ForeignKeyItemsToRooms", "Room").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("Adventure.Domain.ForeignKeyItemsToRooms", "Room").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Room> RoomReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("Adventure.Domain.ForeignKeyItemsToRooms", "Room");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("Adventure.Domain.ForeignKeyItemsToRooms", "Room", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -201,6 +479,31 @@ namespace Adventure.Data
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyItemsToRooms", "Item")]
+        public EntityCollection<Item> Items
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Item>("Adventure.Domain.ForeignKeyItemsToRooms", "Item");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Item>("Adventure.Domain.ForeignKeyItemsToRooms", "Item", value);
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion
