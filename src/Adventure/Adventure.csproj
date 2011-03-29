@@ -59,6 +59,9 @@
     <Compile Include="Commands\CreateItemCommand.cs" />
     <Compile Include="Commands\DescribeItemCommand.cs" />
     <Compile Include="Commands\DescribeRoomCommand.cs" />
+    <Compile Include="Commands\InventoryCommand.cs" />
+    <Compile Include="Commands\LookCommand.cs" />
+    <Compile Include="Commands\RenameItemCommand.cs" />
     <Compile Include="ConsoleFacade.cs" />
     <Compile Include="Commands\DanceCommand.cs" />
     <Compile Include="Commands\EchoCommand.cs" />
