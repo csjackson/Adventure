@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Adventure.Data;
+using Adventure.Commands;
 
 namespace Adventure.Tests
 {
@@ -50,12 +51,16 @@ namespace Adventure.Tests
         public void Execute_Should_List_Contents_Of_Inventory()
         {
             // Arrange
-
+            repository.Stub(gg => gg.AsQueryable()).Return(new List<Item>
+                {
+                    new Item {RoomId=2, ItemName="sword"}
+                }.AsQueryable());                
+                
             // Act
             cmd.Execute("inventory");
 
             // Assert
-            Assert.Fail();
+            mock.AssertWasCalled(m => m.Write("{0}  ", "sword"));
             repository.AssertWasCalled(m => m.Dispose());
         }
 

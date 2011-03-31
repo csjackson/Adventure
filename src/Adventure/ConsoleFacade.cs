@@ -4,7 +4,10 @@ namespace Adventure
 {
     public class ConsoleFacade : IConsoleFacade
     {
-
+        public void Write(string format, params object[] arg)
+        {
+            Console.Write(format, arg);
+        }
 
         public void WriteLine(string format, params object[] arg)
         {

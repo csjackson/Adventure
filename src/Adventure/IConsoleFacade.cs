@@ -8,6 +8,7 @@ namespace Adventure
     public interface IConsoleFacade
     {
         void WriteLine(string format, params object[] arg);
+        void Write(string format, params object[] args);
         ConsoleColor ForegroundColor { get; set; }
         void ResetColor();
     }

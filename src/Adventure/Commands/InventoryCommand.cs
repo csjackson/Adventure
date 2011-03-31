@@ -31,12 +31,10 @@ namespace Adventure.Commands
                 var sack = repository.AsQueryable().Where(qq => qq.RoomId == 2);
                 foreach (var item in sack)
                 {
-                    write("{0}  ", item.ItemName);
+                    console.Write("{0}  ", item.ItemName);
                 }
-               
-                /* for each item in repositroy where repository.RoomId=2
-                 * Writeline (item.ItemName);
-                 */
+                /* Reminder: RoomId 2 is the inventory "room".
+                */
             }
 
         }
