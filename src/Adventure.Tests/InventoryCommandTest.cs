@@ -14,13 +14,13 @@ namespace Adventure.Tests
     {
         private IConsoleFacade mock;
         private InventoryCommand cmd;
-        private IRepository<Item> repository;
+        private IRepository<GameObject> repository;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            repository = MockRepository.GenerateMock<IRepository<Item>>();
+            repository = MockRepository.GenerateMock<IRepository<GameObject>>();
             cmd = new InventoryCommand(mock, repository);
         }
 
@@ -51,16 +51,16 @@ namespace Adventure.Tests
         public void Execute_Should_List_Contents_Of_Inventory()
         {
             // Arrange
-            repository.Stub(gg => gg.AsQueryable()).Return(new List<Item>
-                {
-                    new Item {RoomId=2, ItemName="sword"}
-                }.AsQueryable());                
+            var ball = new GameObject() { Name = "Ball" };
+            var ring = new GameObject() { Name = "Ring" };
+            var list = new List<GameObject>() { ball, ring };
+            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());             
                 
             // Act
             cmd.Execute("inventory");
 
             // Assert
-            mock.AssertWasCalled(m => m.Write("{0}  ", "sword"));
+            mock.AssertWasCalled(m => m.Write("{0}  ", "Ball"));
             repository.AssertWasCalled(m => m.Dispose());
         }
 

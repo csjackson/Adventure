@@ -10,9 +10,9 @@ namespace Adventure.Commands
     {
 
         private IConsoleFacade console;
-        private IRepository<Item> repository;
+        private IRepository<GameObject> repository;
 
-        public InventoryCommand(IConsoleFacade console, IRepository<Item> repository)
+        public InventoryCommand(IConsoleFacade console, IRepository<GameObject> repository)
         {
             this.console = console;
             this.repository = repository;
@@ -28,10 +28,10 @@ namespace Adventure.Commands
             console.WriteLine("You are carrying:");
             using (repository)
             {
-                var sack = repository.AsQueryable().Where(qq => qq.RoomId == 2);
+                var sack = repository.AsQueryable().Where(qq => qq.GameObjectId == 2);
                 foreach (var item in sack)
                 {
-                    console.Write("{0}  ", item.ItemName);
+                    console.Write("{0}  ", item.Name);
                 }
                 /* Reminder: RoomId 2 is the inventory "room".
                 */

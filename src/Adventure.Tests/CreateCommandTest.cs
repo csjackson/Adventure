@@ -7,22 +7,21 @@ using Rhino.Mocks;
 using Adventure.Data;
 using Adventure.Commands;
 
-
 namespace Adventure.Tests
 {
     [TestClass]
-    public class CreateItemCommandTest
+    public class CreateCommandTest
     {
-        private IConsoleFacade mock;
-        private CreateItemCommand cmd;
-        private IRepository<Item> repository;
+           private IConsoleFacade mock;
+        private CreateCommand cmd;
+        private IRepository<GameObject> repository;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            repository = MockRepository.GenerateMock<IRepository<Item>>();
-            cmd = new CreateItemCommand(mock, repository);
+            repository = MockRepository.GenerateMock<IRepository<GameObject>>();
+            cmd = new CreateCommand(mock, repository);
         }
 
         [TestMethod]
@@ -36,30 +35,33 @@ namespace Adventure.Tests
             // Assert
             Assert.IsFalse(result);
         }
-
+                 
         [TestMethod]
         public void isValid_Should_Return_True_for_Valid_String()
         {
             // Arrange
 
             // Act
-            var result = cmd.IsValid("createitem ball");
+            var result = cmd.IsValid("create Hallway");
 
             // Assert
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public void Execute_Should_Create_a_New_DB_Item_Named_Hallway()
+        public void Execute_Should_Create_a_New_DB_Item_Named_Hallway_And_Advise_Same()
         {
             // Arrange
 
             // Act
-            cmd.Execute("createroom Hallway");
+            cmd.Execute("create Hallway");
 
             // Assert
-            repository.AssertWasCalled(m => m.Add(Arg<Item>.Is.Anything));
+            repository.AssertWasCalled(m => m.Add(Arg<GameObject>.Is.Anything));
             repository.AssertWasCalled(m => m.Dispose());
-        }
+            mock.AssertWasCalled(m => m.WriteLine("Object '{0}' created.", "Hallway"));
 
+        }
+    
+        
     }
 }

@@ -11,14 +11,12 @@ namespace Adventure.Commands
     {
         
         private IConsoleFacade console;
-        private IRepository<Item> itemRepository;
-        private IRepository<Room> roomRepository;
+        private IRepository<GameObject> repository;
 
-        public LookCommand(IConsoleFacade console, IRepository<Item> itemRepository, IRepository<Room> roomRepository)
+        public LookCommand(IConsoleFacade console,  IRepository<GameObject> repository)
         {
             this.console = console;
-            this.itemRepository = itemRepository;
-            this.roomRepository = roomRepository;
+            this.repository = repository;
         }
 
         public bool IsValid(string input)
@@ -29,13 +27,13 @@ namespace Adventure.Commands
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            using (roomRepository)
+            using (repository)
             {
-                var LookedAt = roomRepository.AsQueryable()
-                    .FirstOrDefault(qq => qq.RoomName == output);
+                var LookedAt = repository.AsQueryable()
+                    .FirstOrDefault(qq => qq.Name == output);
                 if (LookedAt == null)
                 {
-                    console.WriteLine("It must be an item");
+                    console.WriteLine("I don't see that here.");
                     return;
                 }
                 console.WriteLine(LookedAt.Description);

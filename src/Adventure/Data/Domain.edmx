@@ -7,12 +7,7 @@
     <Schema Namespace="Adventure.Domain.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="AdventureDomainStoreContainer">
           <EntitySet Name="__RefactorLog" EntityType="Adventure.Domain.Store.__RefactorLog" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Items" EntityType="Adventure.Domain.Store.Items" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Rooms" EntityType="Adventure.Domain.Store.Rooms" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="ForeignKeyItemsToRooms" Association="Adventure.Domain.Store.ForeignKeyItemsToRooms">
-            <End Role="Rooms" EntitySet="Rooms" />
-            <End Role="Items" EntitySet="Items" />
-          </AssociationSet>
+          <EntitySet Name="GameObjects" EntityType="Adventure.Domain.Store.GameObjects" store:Type="Tables" Schema="dbo" />
         </EntityContainer>
         <EntityType Name="__RefactorLog">
           <Key>
@@ -20,96 +15,46 @@
           </Key>
           <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <EntityType Name="Items">
+        <EntityType Name="GameObjects">
           <Key>
-            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="GameObjectId" />
           </Key>
-          <Property Name="ItemId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="ItemName" Type="varchar(max)" />
-          <Property Name="ItemDescription" Type="varchar(max)" />
-          <Property Name="RoomId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Rooms">
-          <Key>
-            <PropertyRef Name="RoomId" />
-          </Key>
-          <Property Name="RoomId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="RoomName" Type="varchar(max)" />
+          <Property Name="GameObjectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar(max)" />
           <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Location" Type="int" Nullable="false" />
+          <Property Name="type" Type="varchar(max)" Nullable="false" />
         </EntityType>
-        <Association Name="ForeignKeyItemsToRooms">
-          <End Role="Rooms" Type="Adventure.Domain.Store.Rooms" Multiplicity="1" />
-          <End Role="Items" Type="Adventure.Domain.Store.Items" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Rooms">
-              <PropertyRef Name="RoomId" />
-            </Principal>
-            <Dependent Role="Items">
-              <PropertyRef Name="RoomId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Adventure.Domain" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="AdventureDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Rooms" EntityType="Adventure.Domain.Room" />
           <EntitySet Name="C__RefactorLog" EntityType="Adventure.Domain.C__RefactorLog" />
-          <EntitySet Name="Items" EntityType="Adventure.Domain.Item" />
-          <AssociationSet Name="ForeignKeyItemsToRooms" Association="Adventure.Domain.ForeignKeyItemsToRooms">
-            <End Role="Room" EntitySet="Rooms" />
-            <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
+          <EntitySet Name="GameObjects" EntityType="Adventure.Domain.GameObject" />
         </EntityContainer>
-        <EntityType Name="Room">
-          <Key>
-            <PropertyRef Name="RoomId" />
-          </Key>
-          <Property Name="RoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoomName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Items" Relationship="Adventure.Domain.ForeignKeyItemsToRooms" FromRole="Room" ToRole="Item" />
-        </EntityType>
         <EntityType Name="C__RefactorLog">
           <Key>
             <PropertyRef Name="OperationKey" />
           </Key>
           <Property Type="Guid" Name="OperationKey" Nullable="false" />
         </EntityType>
-        <EntityType Name="Item">
+        <EntityType Name="GameObject">
           <Key>
-            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="GameObjectId" />
           </Key>
-          <Property Type="Int32" Name="ItemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="ItemName" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ItemDescription" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="RoomId" Nullable="false" />
-          <NavigationProperty Name="Room" Relationship="Adventure.Domain.ForeignKeyItemsToRooms" FromRole="Item" ToRole="Room" />
+          <Property Type="Int32" Name="GameObjectId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Location" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="ForeignKeyItemsToRooms">
-          <End Type="Adventure.Domain.Room" Role="Room" Multiplicity="1" />
-          <End Type="Adventure.Domain.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Room">
-              <PropertyRef Name="RoomId" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="RoomId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AdventureDomainStoreContainer" CdmEntityContainer="AdventureDBEntities">
-          <EntitySetMapping Name="Rooms"><EntityTypeMapping TypeName="Adventure.Domain.Room"><MappingFragment StoreEntitySet="Rooms">
-            <ScalarProperty Name="RoomId" ColumnName="RoomId" />
-            <ScalarProperty Name="RoomName" ColumnName="RoomName" />
-            <ScalarProperty Name="Description" ColumnName="Description" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="C__RefactorLog">
             <EntityTypeMapping TypeName="Adventure.Domain.C__RefactorLog">
               <MappingFragment StoreEntitySet="__RefactorLog">
@@ -117,13 +62,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Items">
-            <EntityTypeMapping TypeName="Adventure.Domain.Item">
-              <MappingFragment StoreEntitySet="Items">
-                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
-                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
-                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <EntitySetMapping Name="GameObjects">
+            <EntityTypeMapping TypeName="Adventure.Domain.GameObject">
+              <MappingFragment StoreEntitySet="GameObjects">
+                <ScalarProperty Name="Type" ColumnName="type" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GameObjectId" ColumnName="GameObjectId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -148,13 +94,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="Domain">
-        <EntityTypeShape EntityType="Adventure.Domain.Room" Width="1.5" PointX="2.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="Adventure.Domain.C__RefactorLog" Width="1.5" PointX="0.875" PointY="1.5" Height="1.2110807291666674" />
-        <EntityTypeShape EntityType="Adventure.Domain.Item" Width="1.5" PointX="5" PointY="0.625" Height="1.9802864583333335" />
-        <AssociationConnector Association="Adventure.Domain.ForeignKeyItemsToRooms" >
-          <ConnectorPoint PointX="4.25" PointY="1.6439925130208333" />
-          <ConnectorPoint PointX="5" PointY="1.6439925130208333" />
-        </AssociationConnector>
+        <EntityTypeShape EntityType="Adventure.Domain.GameObject" Width="1.5" PointX="3.5" PointY="1.5" Height="1.9802864583333335" />
       </Diagram>
     </Diagrams>
   </Designer>

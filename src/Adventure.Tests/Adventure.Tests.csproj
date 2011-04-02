@@ -49,10 +49,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateItemCommandTest.cs" />
-    <Compile Include="CreateRoomCommandTest.cs" />
-    <Compile Include="DescribeItemCommandTest.cs" />
-    <Compile Include="DescribeRoomCommandTest.cs" />
+    <Compile Include="CreateCommandTest.cs" />
+    <Compile Include="DescribeCommandTest.cs" />
     <Compile Include="InventoryCommandTest.cs" />
     <Compile Include="LookCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,7 +61,8 @@
     <Compile Include="GlareCommandTest.cs" />
     <Compile Include="PanicCommandTest.cs" />
     <Compile Include="EchoCommandTest.cs" />
-    <Compile Include="RenameItemCommandTest.cs" />
+    <Compile Include="RenameCommandTest.cs" />
+    <Compile Include="TakeCommandTest.cs" />
     <Compile Include="YellCommandTest.cs" />
     <Compile Include="WaveCommandTest.cs" />
   </ItemGroup>

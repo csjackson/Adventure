@@ -18,7 +18,7 @@ namespace Adventure
             container.Kernel.Resolver.AddSubResolver(
                 new ArrayResolver(container.Kernel, false));
             container.Register(
-                Component.For<CommandController>().LifeStyle.Transient,
+                Component.For<ICommandController>().ImplementedBy<CommandController>().LifeStyle.Transient,
                 Component.For<IConsoleFacade>().ImplementedBy<ConsoleFacade>().LifeStyle.Transient,
                 Component.For<IUnitOfWork>().ImplementedBy<UnitOfWork>()
                     .LifeStyle.Transient,
@@ -43,7 +43,7 @@ namespace Adventure
                 Console.WriteLine();
                 Console.Write("> ");
                 var input = Console.ReadLine();
-                var cntrl = container.Resolve<CommandController>();
+                var cntrl = container.Resolve<ICommandController>();
                 cont = cntrl.Parse(input);
                 container.Release(cntrl);
             }

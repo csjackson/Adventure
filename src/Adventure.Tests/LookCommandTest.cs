@@ -13,18 +13,15 @@ namespace Adventure.Tests
     {
         private IConsoleFacade mock;
         private LookCommand cmd;
-        private IRepository<Room> roomRepository;
-        private IRepository<Item> itemRepository;
+        private IRepository<GameObject> repository;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
-            roomRepository = MockRepository.GenerateMock<IRepository<Room>>();
-            itemRepository = MockRepository.GenerateMock<IRepository<Item>>();
-            cmd = new LookCommand(mock, roomRepository, itemRepository);
+            repository = MockRepository.GenerateMock<IRepository<GameObject>>();
+            cmd = new LookCommand(mock, repository);
         }
-
         [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
         {
@@ -41,9 +38,10 @@ namespace Adventure.Tests
         {
             // Arrange
             // Already created via TestInitialize
+            repository.Stub(qq => qq.AsQueryable()).Return((new List<GameObject>() { }).AsQueryable());
 
             // Act
-            var result = cmd.IsValid("look stupid");
+            cmd.Execute("look stupid");
             // Assert
             mock.AssertWasCalled(qq => qq.WriteLine("I don't see that here."));
         }
@@ -52,33 +50,17 @@ namespace Adventure.Tests
         public void Look_and_RoomName_Should_Return_Desc_of_Room()
         {
             // Arrange
-            var hallway = new Room() { RoomName = "Hallway", Description= "It's a hallway." };
-            var bar = new Room() { RoomName = "Bar", Description = "I love this bar. It's my kinda of place." };
-            var list = new List<Room>() { hallway, bar };
-            roomRepository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
-
+            var hallway = new GameObject() { Name = "Hallway", Description= "It's a hallway." };
+            var bar = new GameObject() { Name = "Bar", Description = "It's my kinda of place." };
+            var list = new List<GameObject>() { hallway, bar };
+            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
             // Act
-            cmd.Execute("look hallway");
+            cmd.Execute("look Hallway");
 
             // Assert
             mock.AssertWasCalled(qq => qq.WriteLine("It's a hallway."));
-            roomRepository.AssertWasCalled(m => m.Dispose());
+            repository.AssertWasCalled(m => m.Dispose());
         }
-        [TestMethod]
-        public void Look_AND_ItemName_Should_Return_ItemDesc()
-        {
-            // Arrange
-            var ball = new Item() { ItemName= "Ball", ItemDescription= "A shiny rubber ball."};
-            var sword = new Item() { ItemName = "Sword", ItemDescription = "Shiny and sharp." };
-            var list = new List<Item>() { ball, sword };
-            itemRepository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
 
-            // Act
-            cmd.Execute("look sword");
-
-            // Assert
-            mock.AssertWasCalled(qq => qq.WriteLine("Shiny and sharp."));
-            roomRepository.AssertWasCalled(m => m.Dispose());
-        }
     }
 }

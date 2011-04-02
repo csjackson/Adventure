@@ -3,7 +3,11 @@ using System.Linq;
 
 namespace Adventure
 {
-    public class CommandController
+    public interface ICommandController
+    {
+        bool Parse(string input);
+    }
+    public class CommandController : ICommandController
     {
         private ICommand[] commands;
         private IUnknownInputHandler unknown;

@@ -80,13 +80,7 @@
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Rooms.table.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Scripts\Items.table.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="SomeTableOrView.ForeignKeyItemsToRooms.fkey.sql">
+    <Build Include="GameObjects.table.sql">
       <SubType>Code</SubType>
     </Build>
   </ItemGroup>
