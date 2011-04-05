@@ -68,7 +68,7 @@ namespace Adventure.Tests
         }
 
         [TestMethod]
-        public void Execute_Should_Set_the_Description_of_Something_And_Tell_Me_So()
+        public void Execute_Should_Set_the_Description_of_Something()
         {
             // Arrange
             var ball = new GameObject() { Name = "Ball" };
@@ -80,7 +80,6 @@ namespace Adventure.Tests
 
             // Assert
             Assert.AreEqual("A red rubber ball.", ball.Description);
-            //console.AssertWasCalled(m => m.WriteLine("Description of object '{0}' changed.", "Ball"));
             //repository.AssertWasCalled(m => m.Dispose());
         }
         [TestMethod]

@@ -11,9 +11,9 @@ namespace Adventure.Commands
 
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
-        private ICommandController control;
-
-        public DescribeCommand(IConsoleFacade console, IRepository<GameObject> repository )
+        private ICommandController control;  
+        
+        public DescribeCommand(IConsoleFacade console, IRepository<GameObject> repository)
         {
             this.console = console;
             this.repository = repository;
