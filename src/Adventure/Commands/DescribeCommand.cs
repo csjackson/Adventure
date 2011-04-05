@@ -6,14 +6,14 @@ using Adventure.Data;
 
 namespace Adventure.Commands
 {
-    public class DescribeCommand : BaseCommand, ICommand
+    public class DescribeCommand : BaseCommand, ICommand 
     {
 
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
         private ICommandController control;
 
-        public DescribeCommand(IConsoleFacade console, IRepository<GameObject> repository)
+        public DescribeCommand(IConsoleFacade console, IRepository<GameObject> repository )
         {
             this.console = console;
             this.repository = repository;
@@ -44,7 +44,7 @@ namespace Adventure.Commands
             }
             console.WriteLine("Description of object '{0}' changed.", thing);
             console.WriteLine("> LOOK {0}", thing.ToUpper());
-            //control.Parse(String.Join("look ", thing));
+            control.Parse(String.Join("look ", thing));
             // control.Parse spits exception: Object reference not set to an instance of an object. 
         }
 
