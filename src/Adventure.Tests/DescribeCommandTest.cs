@@ -15,14 +15,16 @@ namespace Adventure.Tests
         private IConsoleFacade console;
         private DescribeCommand cmd;
         private IRepository<GameObject> repository;
-        private ICommandController control; 
+        // private ICommandController control; 
+        private IFormatter format;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             console = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
-            cmd = new DescribeCommand(console, repository);
+            format = new Formatter(console, repository);
+            cmd = new DescribeCommand(console, repository, format);
         }
 
         [TestMethod]
@@ -82,18 +84,6 @@ namespace Adventure.Tests
             Assert.AreEqual("A red rubber ball.", ball.Description);
             //repository.AssertWasCalled(m => m.Dispose());
         }
-        [TestMethod]
-        public void Execute_Should_Call_LookCommand()
-        {
-            // Arrange
-            // handled in initialize
-
-            // Act
-            cmd.Execute("describe Ball= A shiny red rubber ball.");
-
-            // Assert
-            //console.AssertWasCalled(m => m.WriteLine("> LOOK {0}", "BALL"));
-            control.AssertWasCalled(m => m.Parse("Look Ball"));
-        }
+    
     }
 }

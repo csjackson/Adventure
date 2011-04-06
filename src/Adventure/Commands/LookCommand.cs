@@ -12,11 +12,13 @@ namespace Adventure.Commands
         
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
+        private IFormatter format;
 
-        public LookCommand(IConsoleFacade console,  IRepository<GameObject> repository)
+        public LookCommand(IConsoleFacade console,  IRepository<GameObject> repository, IFormatter format)
         {
             this.console = console;
             this.repository = repository;
+            this.format = format;
         }
 
         public bool IsValid(string input)
@@ -36,7 +38,8 @@ namespace Adventure.Commands
                     console.WriteLine("I don't see that here.");
                     return;
                 }
-                console.WriteLine(LookedAt.Description);
+                format.Output(LookedAt);
+                //Output(LookedAt);
             }
         }
     }

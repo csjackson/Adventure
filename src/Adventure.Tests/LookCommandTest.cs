@@ -14,13 +14,15 @@ namespace Adventure.Tests
         private IConsoleFacade mock;
         private LookCommand cmd;
         private IRepository<GameObject> repository;
+        private IFormatter format;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
-            cmd = new LookCommand(mock, repository);
+            format = new Formatter(mock, repository);
+            cmd = new LookCommand(mock, repository, format);
         }
         [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
@@ -47,7 +49,7 @@ namespace Adventure.Tests
         }
 
         [TestMethod]
-        public void Look_and_RoomName_Should_Return_Desc_of_Room()
+        public void Look_and_Name_Should_Return_Desc_of_Name()
         {
             // Arrange
             var hallway = new GameObject() { Name = "Hallway", Description= "It's a hallway." };

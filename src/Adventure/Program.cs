@@ -22,6 +22,7 @@ namespace Adventure
                 Component.For<IConsoleFacade>().ImplementedBy<ConsoleFacade>().LifeStyle.Transient,
                 Component.For<IUnitOfWork>().ImplementedBy<UnitOfWork>()
                     .LifeStyle.Transient,
+                Component.For<IFormatter>().ImplementedBy<Formatter>().LifeStyle.Transient,
                 Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>))
                     .LifeStyle.Transient,
                 Component.For<IUnknownInputHandler>().ImplementedBy<UnknownInputHandler>()

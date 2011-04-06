@@ -11,13 +11,15 @@ namespace Adventure.Commands
 
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
-        private ICommandController control;  
+        private IFormatter format;
+         
         
-        public DescribeCommand(IConsoleFacade console, IRepository<GameObject> repository)
+        public DescribeCommand(IConsoleFacade console, 
+            IRepository<GameObject> repository, IFormatter format)
         {
             this.console = console;
             this.repository = repository;
-            
+            this.format = format;
         }
 
         public bool IsValid(string input)
@@ -41,10 +43,12 @@ namespace Adventure.Commands
                     return;
                 }
                 item.Description = description;
-            }
+            
             console.WriteLine("Description of object '{0}' changed.", thing);
             console.WriteLine("> LOOK {0}", thing.ToUpper());
-            control.Parse(String.Join("look ", thing));
+            format.Output(item);
+            }
+            //control.Parse(String.Join("look ", thing));
             // control.Parse spits exception: Object reference not set to an instance of an object. 
         }
 
