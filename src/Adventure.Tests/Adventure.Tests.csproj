@@ -63,6 +63,7 @@
     <Compile Include="EchoCommandTest.cs" />
     <Compile Include="RenameCommandTest.cs" />
     <Compile Include="TakeCommandTest.cs" />
+    <Compile Include="MasterRoomTest.cs" />
     <Compile Include="YellCommandTest.cs" />
     <Compile Include="WaveCommandTest.cs" />
   </ItemGroup>
