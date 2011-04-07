@@ -15,13 +15,14 @@ namespace Adventure.Tests
         private IConsoleFacade mock;
         private InventoryCommand cmd;
         private IRepository<GameObject> repository;
+        private IPlayer player;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
             mock = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
-            cmd = new InventoryCommand(mock, repository);
+            cmd = new InventoryCommand(mock, repository, player);
         }
 
         [TestMethod]

@@ -12,36 +12,32 @@ namespace Adventure
     }
     public class MasterRoom : IMasterRoom
     {
-        public int Id { get; set; } 
-    }
-    public class MasterRoomFactory
-    {
         private IRepository<GameObject> repository;
 
-        public MasterRoomFactory(IRepository<GameObject> repository)
+        public MasterRoom(IRepository<GameObject> repository)
         {
-            this.repository = repository;
-            
+        	this.repository = repository;
         }
-        public IRepository<GameObject> CreateMasterRoom()
+        public int PlaceToStand(IRepository<GameObject> repository)
             {
-                GameObject MasterRoom;
-
                 using (repository)
                 {
-                    MasterRoom = repository.AsQueryable().FirstOrDefault(qq => qq.Name == "MasterRoom" && qq.Type == "Room");
-                    if (MasterRoom == null)
+                    var Master = repository.AsQueryable()
+                   .FirstOrDefault(qq => qq.Name == "Master Room");
+                    if (Master == null)
                     {
-                        MasterRoom = new GameObject()
+                        Master = new GameObject()
                         {
                             Name = "Master Room",
-                            Description = "This is the Master Room. It is everwhere and nowhere.",
+                            Description = "This is the Master Room.",
                             Type = "Room"
                         };
-                        repository.Add(MasterRoom);
+                        repository.Add(Master);
                     }
-                    return new MasterRoom() { Id = MasterRoom.GameObjectId };
+                    int Id = Master.GameObjectId;
+                    return Id;
                 }
             }
     }
+ 
 }

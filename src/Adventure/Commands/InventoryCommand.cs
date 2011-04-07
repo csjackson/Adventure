@@ -11,11 +11,13 @@ namespace Adventure.Commands
 
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
+        private IPlayer player;
 
-        public InventoryCommand(IConsoleFacade console, IRepository<GameObject> repository)
+        public InventoryCommand(IConsoleFacade console, IRepository<GameObject> repository, IPlayer player)
         {
             this.console = console;
             this.repository = repository;
+            this.player = player;
         }
 
         public bool IsValid(string input)
@@ -28,13 +30,12 @@ namespace Adventure.Commands
             console.WriteLine("You are carrying:");
             using (repository)
             {
-                var sack = repository.AsQueryable().Where(qq => qq.GameObjectId == 2);
+                var sack = repository.AsQueryable().Where(qq => qq.GameObjectId == player.Id);
                 foreach (var item in sack)
                 {
                     console.Write("{0}  ", item.Name);
                 }
-                /* Reminder: RoomId 2 is the inventory "room".
-                */
+               
             }
 
         }
