@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Rhino.Mocks">
-      <HintPath>..\lib\Rhino.Mocks-3.6\Rhino.Mocks.dll</HintPath>
+      <HintPath>..\..\lib\Rhino.Mocks-3.6\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -63,7 +63,6 @@
     <Compile Include="EchoCommandTest.cs" />
     <Compile Include="RenameCommandTest.cs" />
     <Compile Include="TakeCommandTest.cs" />
-    <Compile Include="MasterRoomTest.cs" />
     <Compile Include="YellCommandTest.cs" />
     <Compile Include="WaveCommandTest.cs" />
   </ItemGroup>

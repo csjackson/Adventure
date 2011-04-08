@@ -6,11 +6,12 @@ using Adventure.Data;
 
 namespace Adventure
 {
+
     public interface IMasterRoom
     {
-        int Id { get; set; }
+        int FindRoom(IRepository<GameObject> repository);
     }
-    public class MasterRoom : IMasterRoom
+    public class MasterRoom : IMasterRoom 
     {
         private IRepository<GameObject> repository;
 
@@ -18,7 +19,7 @@ namespace Adventure
         {
         	this.repository = repository;
         }
-        public int PlaceToStand(IRepository<GameObject> repository)
+        public int FindRoom(IRepository<GameObject> repository)
             {
                 using (repository)
                 {

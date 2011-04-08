@@ -6,9 +6,11 @@ using Adventure.Data;
 
 namespace Adventure
 {
+
+
     public interface IPlayer
     {
-        int Id { get; set; }
+        int FindPlayer(IRepository<GameObject> repository, IMasterRoom master);
     }
     public class Player : IPlayer
     {
@@ -22,7 +24,7 @@ namespace Adventure
             this.console = console;
             this.master = master;
         }
-        public int FindPlayer(IRepository<GameObject> repository, IConsoleFacade console, IMasterRoom master)
+        public int FindPlayer(IRepository<GameObject> repository, IMasterRoom master)
         {
             using (repository)
             {
@@ -30,15 +32,12 @@ namespace Adventure
                .FirstOrDefault(qq => qq.Type == "Player");
                 if (Player == null)
                 {
-                    console.WriteLine("What will you name your new player?");
-                    string NewName = Console.ReadLine();
-
                     Player = new GameObject()
                     {
-                        Name = NewName,
+                        Name = "DefaultPlayer",
                         Description = "This is the default player description.",
                         Type = "Player",
-                        Location = master.Id
+                        Location = master.FindRoom(repository)
                     };
 
                         repository.Add(Player);

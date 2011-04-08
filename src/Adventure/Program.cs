@@ -27,6 +27,8 @@ namespace Adventure
                     .LifeStyle.Transient,
                 Component.For<IUnknownInputHandler>().ImplementedBy<UnknownInputHandler>()
                     .LifeStyle.Transient,
+                Component.For<IMasterRoom>().ImplementedBy<MasterRoom>().LifeStyle.Transient,
+                Component.For<IPlayer>().ImplementedBy<Player>().LifeStyle.Transient,
                 AllTypes.FromAssemblyContaining<EchoCommand>().BasedOn<ICommand>()
                     .Configure(c=> c.LifeStyle.Transient)
                     .WithService.FromInterface(typeof(ICommand))
