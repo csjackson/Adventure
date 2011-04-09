@@ -6,25 +6,32 @@ using Adventure.Data;
 
 namespace Adventure
 {
-
-
     public interface IPlayer
     {
-        int FindPlayer(IRepository<GameObject> repository, IMasterRoom master);
+        int Id { get; }
     }
     public class Player : IPlayer
+    {
+        public int Id { get; set; }
+    }
+
+    public interface IPlayerFactory
+    {
+        IPlayer FindPlayer();
+    }
+    public class PlayerFactory : IPlayerFactory
     {
         private IRepository<GameObject> repository;
         private IConsoleFacade console;
         private IMasterRoom master;
 
-        public Player(IRepository<GameObject> repository, IConsoleFacade console, IMasterRoom master)
+        public PlayerFactory(IRepository<GameObject> repository, IConsoleFacade console, IMasterRoom master)
         {
             this.repository = repository;
             this.console = console;
             this.master = master;
         }
-        public int FindPlayer(IRepository<GameObject> repository, IMasterRoom master)
+        public IPlayer FindPlayer()
         {
             using (repository)
             {
@@ -37,13 +44,13 @@ namespace Adventure
                         Name = "DefaultPlayer",
                         Description = "This is the default player description.",
                         Type = "Player",
-                        Location = master.FindRoom(repository)
+                        Location_Id = master.Id
                     };
 
-                        repository.Add(Player);
+                    repository.Add(Player);
+                    repository.UnitOfWork.Save();
                 }
-                int Id = Player.GameObjectId;
-                return Id;
+                return new Player() { Id = Player.GameObjectId };
             }
         }
     }

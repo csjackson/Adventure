@@ -16,6 +16,11 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
+
+[assembly: EdmRelationshipAttribute("Adventure.Domain", "ForeignKeyConstraint1", "GameObject", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Adventure.Data.GameObject), "GameObject1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Adventure.Data.GameObject), true)]
+
+#endregion
 
 namespace Adventure.Data
 {
@@ -193,13 +198,11 @@ namespace Adventure.Data
         /// Create a new GameObject object.
         /// </summary>
         /// <param name="gameObjectId">Initial value of the GameObjectId property.</param>
-        /// <param name="location">Initial value of the Location property.</param>
         /// <param name="type">Initial value of the Type property.</param>
-        public static GameObject CreateGameObject(global::System.Int32 gameObjectId, global::System.Int32 location, global::System.String type)
+        public static GameObject CreateGameObject(global::System.Int32 gameObjectId, global::System.String type)
         {
             GameObject gameObject = new GameObject();
             gameObject.GameObjectId = gameObjectId;
-            gameObject.Location = location;
             gameObject.Type = type;
             return gameObject;
         }
@@ -285,26 +288,26 @@ namespace Adventure.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 Location
+        public Nullable<global::System.Int32> Location_Id
         {
             get
             {
-                return _Location;
+                return _Location_Id;
             }
             set
             {
-                OnLocationChanging(value);
-                ReportPropertyChanging("Location");
-                _Location = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Location");
-                OnLocationChanged();
+                OnLocation_IdChanging(value);
+                ReportPropertyChanging("Location_Id");
+                _Location_Id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Location_Id");
+                OnLocation_IdChanged();
             }
         }
-        private global::System.Int32 _Location;
-        partial void OnLocationChanging(global::System.Int32 value);
-        partial void OnLocationChanged();
+        private Nullable<global::System.Int32> _Location_Id;
+        partial void OnLocation_IdChanging(Nullable<global::System.Int32> value);
+        partial void OnLocation_IdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -332,6 +335,69 @@ namespace Adventure.Data
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyConstraint1", "GameObject1")]
+        public EntityCollection<GameObject> Inventory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject1");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject1", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyConstraint1", "GameObject")]
+        public GameObject Location
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<GameObject> LocationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject", value);
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion

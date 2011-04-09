@@ -27,8 +27,10 @@ namespace Adventure
                     .LifeStyle.Transient,
                 Component.For<IUnknownInputHandler>().ImplementedBy<UnknownInputHandler>()
                     .LifeStyle.Transient,
-                Component.For<IMasterRoom>().ImplementedBy<MasterRoom>().LifeStyle.Transient,
-                Component.For<IPlayer>().ImplementedBy<Player>().LifeStyle.Transient,
+                Component.For<IMasterRoomFactory>().ImplementedBy<MasterRoomFactory>().LifeStyle.Transient,
+                Component.For<IPlayerFactory>().ImplementedBy<PlayerFactory>().LifeStyle.Transient,
+                Component.For<IPlayer>().UsingFactoryMethod(k => k.Resolve<IPlayerFactory>().FindPlayer()).LifeStyle.Singleton,
+                Component.For<IMasterRoom>().UsingFactoryMethod(k => k.Resolve<IMasterRoomFactory>().FindRoom()).LifeStyle.Singleton,
                 AllTypes.FromAssemblyContaining<EchoCommand>().BasedOn<ICommand>()
                     .Configure(c=> c.LifeStyle.Transient)
                     .WithService.FromInterface(typeof(ICommand))

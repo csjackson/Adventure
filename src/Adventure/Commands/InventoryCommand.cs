@@ -12,14 +12,13 @@ namespace Adventure.Commands
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
         private IPlayer player;
-        private IMasterRoom master;
+        
 
-        public InventoryCommand(IConsoleFacade console, IRepository<GameObject> repository, IPlayer player, IMasterRoom master)
+        public InventoryCommand(IConsoleFacade console, IRepository<GameObject> repository, IPlayer player)
         {
             this.console = console;
             this.repository = repository;
             this.player = player;
-            this.master = master;
         }
 
         public bool IsValid(string input)
@@ -32,8 +31,8 @@ namespace Adventure.Commands
             console.WriteLine("You are carrying:");
             using (repository)
             {
-                var sack = repository.AsQueryable().Where(qq => qq.GameObjectId == player.FindPlayer(repository, master));
-                foreach (var item in sack)
+                var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
+                foreach (var item in pObj.Inventory)
                 {
                     console.Write("{0}  ", item.Name);
                 }

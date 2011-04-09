@@ -83,5 +83,8 @@
     <Build Include="GameObjects.table.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="SomeTableOrView.ForeignKeyConstraint1.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>

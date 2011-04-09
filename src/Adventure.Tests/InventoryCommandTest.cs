@@ -12,20 +12,18 @@ namespace Adventure.Tests
     [TestClass]
     public class InventoryCommandTest
     {
-        private IConsoleFacade mock;
+        private IConsoleFacade console;
         private InventoryCommand cmd;
         private IRepository<GameObject> repository;
         private IPlayer player;
-        private IMasterRoom master;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
-            mock = MockRepository.GenerateMock<IConsoleFacade>();
+            console = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
-            this.master = master;
-            this.player = player;
-            cmd = new InventoryCommand(mock, repository, player, master);
+            player = MockRepository.GenerateMock<IPlayer>();
+            cmd = new InventoryCommand(console, repository, player);
         }
 
         [TestMethod]
@@ -55,16 +53,21 @@ namespace Adventure.Tests
         public void Execute_Should_List_Contents_Of_Inventory()
         {
             // Arrange
-            var ball = new GameObject() { Name = "Ball" };
+            var db_Player = new GameObject() { GameObjectId = 3 };
+            var ball = new GameObject() { Name = "Ball", Location = db_Player };
             var ring = new GameObject() { Name = "Ring" };
-            var list = new List<GameObject>() { ball, ring };
-            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());             
+            db_Player.Inventory.Add(ball);
+            var list = new List<GameObject>() { db_Player, ball, ring };
+
+            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
+            player.Stub(qq => qq.Id).Return(3); 
                 
             // Act
             cmd.Execute("inventory");
 
             // Assert
-            mock.AssertWasCalled(m => m.Write("{0}  ", "Ball"));
+            console.AssertWasCalled(m => m.Write("{0}  ", "Ball"));
+            console.AssertWasNotCalled(m => m.Write("{0}  ", "Ring"));
             repository.AssertWasCalled(m => m.Dispose());
         }
 

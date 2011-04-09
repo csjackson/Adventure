@@ -3,6 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <UseSandboxSettings>True</UseSandboxSettings>
     <SandboxDeployToDatabase>True</SandboxDeployToDatabase>
-    <SandboxTargetConnectionString>Data Source=BESTEGER\SQLEXPRESS;Integrated Security=True;Pooling=False</SandboxTargetConnectionString>
+    <SandboxTargetConnectionString>Data Source=.\SQLEXPRESS;Integrated Security=True;Pooling=False</SandboxTargetConnectionString>
+    <SandboxTargetDatabase>AdventureDB</SandboxTargetDatabase>
   </PropertyGroup>
 </Project>

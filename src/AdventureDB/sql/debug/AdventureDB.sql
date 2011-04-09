@@ -10,8 +10,8 @@ SET NUMERIC_ROUNDABORT OFF;
 
 GO
 :setvar DatabaseName "AdventureDB"
-:setvar DefaultDataPath "c:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\DATA\"
-:setvar DefaultLogPath "c:\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\DATA\"
+:setvar DefaultDataPath "c:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA\"
+:setvar DefaultLogPath "c:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA\"
 
 GO
 USE [master]
@@ -30,15 +30,15 @@ GO
 
 IF NOT EXISTS (SELECT 1 FROM [master].[dbo].[sysdatabases] WHERE [name] = N'$(DatabaseName)')
 BEGIN
-    RAISERROR(N'You cannot deploy this update script to target BESTEGER\SQLEXPRESS. The database for which this script was built, AdventureDB, does not exist on this server.', 16, 127) WITH NOWAIT
+    RAISERROR(N'You cannot deploy this update script to target TIMTABLET\SQLEXPRESS. The database for which this script was built, AdventureDB, does not exist on this server.', 16, 127) WITH NOWAIT
     RETURN
 END
 
 GO
 
-IF (@@servername != 'BESTEGER\SQLEXPRESS')
+IF (@@servername != 'TIMTABLET\SQLEXPRESS')
 BEGIN
-    RAISERROR(N'The server name in the build script %s does not match the name of the target server %s. Verify whether your database project settings are correct and whether your build script is up to date.', 16, 127,N'BESTEGER\SQLEXPRESS',@@servername) WITH NOWAIT
+    RAISERROR(N'The server name in the build script %s does not match the name of the target server %s. Verify whether your database project settings are correct and whether your build script is up to date.', 16, 127,N'TIMTABLET\SQLEXPRESS',@@servername) WITH NOWAIT
     RETURN
 END
 

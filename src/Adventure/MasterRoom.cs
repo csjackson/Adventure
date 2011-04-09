@@ -6,20 +6,27 @@ using Adventure.Data;
 
 namespace Adventure
 {
-
     public interface IMasterRoom
     {
-        int FindRoom(IRepository<GameObject> repository);
+        int Id { get; }
     }
-    public class MasterRoom : IMasterRoom 
+    public class MasterRoom : IMasterRoom
+    {
+        public int Id { get; set; }
+    }
+    public interface IMasterRoomFactory
+    {
+        IMasterRoom FindRoom();
+    }
+    public class MasterRoomFactory : IMasterRoomFactory 
     {
         private IRepository<GameObject> repository;
 
-        public MasterRoom(IRepository<GameObject> repository)
+        public MasterRoomFactory(IRepository<GameObject> repository)
         {
         	this.repository = repository;
         }
-        public int FindRoom(IRepository<GameObject> repository)
+        public IMasterRoom FindRoom()
             {
                 using (repository)
                 {
@@ -34,9 +41,9 @@ namespace Adventure
                             Type = "Room"
                         };
                         repository.Add(Master);
+                        repository.UnitOfWork.Save();
                     }
-                    int Id = Master.GameObjectId;
-                    return Id;
+                    return new MasterRoom() { Id = Master.GameObjectId };
                 }
             }
     }

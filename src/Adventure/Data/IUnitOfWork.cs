@@ -7,5 +7,6 @@ namespace Adventure.Data
     {
         ObjectContext Context { get; set; }
         void Abort();
+        void Save();
     }
 }

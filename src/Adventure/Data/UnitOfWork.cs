@@ -17,12 +17,16 @@ namespace Adventure.Data
         {
             aborted = true;
         }
+        public void Save()
+        {
 
+            Context.SaveChanges();
+        }
 
         public void Dispose()
         {
             if (!aborted)
-                Context.SaveChanges();
+               Save();
             Context.Dispose();
             aborted = true;
         }

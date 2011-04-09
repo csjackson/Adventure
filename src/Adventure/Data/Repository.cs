@@ -14,6 +14,7 @@ namespace Adventure.Data
         void Add(T entity);
         void Delete(T entity);
         IQueryable<T> AsQueryable();
+        IUnitOfWork UnitOfWork { get; }
     }
     public class Repository<T> : IDisposable, IRepository<T>
         where T : EntityObject
@@ -54,5 +55,11 @@ namespace Adventure.Data
             uow.Dispose();
         }
 
+
+
+        public IUnitOfWork UnitOfWork
+        {
+            get { return uow; }
+        }
     }
 }
