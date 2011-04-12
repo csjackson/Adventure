@@ -59,7 +59,9 @@
     <Compile Include="Commands\ClapCommand.cs" />
     <Compile Include="Commands\CreateCommand.cs" />
     <Compile Include="Commands\DescribeCommand.cs" />
+    <Compile Include="Commands\DropCommand.cs" />
     <Compile Include="Commands\Formatter.cs" />
+    <Compile Include="Commands\GetCommand.cs" />
     <Compile Include="Commands\InventoryCommand.cs" />
     <Compile Include="Commands\LookCommand.cs" />
     <Compile Include="Commands\RenameCommand.cs" />
