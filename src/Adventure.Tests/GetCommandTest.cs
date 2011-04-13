@@ -71,9 +71,10 @@ namespace Adventure.Tests
             var db_Hallway = new GameObject() { GameObjectId = 8 };
             var db_Elsewhere = new GameObject() { GameObjectId = 12 };
             var db_Player = new GameObject() { GameObjectId = 3, Location = db_Hallway };
-            var ball = new GameObject() { Name = "Ball", Location = db_Player };
-            var ring = new GameObject() { Name = "Ring", Location = db_Elsewhere };
+            var ball = new GameObject() { Name = "Ball", Location = db_Player, Location_Id = 8 };
+            var ring = new GameObject() { Name = "Ring", Location = db_Elsewhere, Location_Id = 12 };
             db_Player.Inventory.Add(ball);
+            db_Elsewhere.Inventory.Add(ring);
             var list = new List<GameObject>() { db_Player, ball, ring };
 
             // Act

@@ -71,7 +71,7 @@ namespace Adventure.Tests
         {
         	 // arrange
             var db_Hallway = new GameObject() { GameObjectId = 8 };
-            var db_Player = new GameObject() { GameObjectId = 3, Location= db_Hallway };
+            var db_Player = new GameObject() { GameObjectId = 3, Location= db_Hallway, Location_Id = 8 };
             var ball = new GameObject() { Name = "Ball", Location = db_Player };
             var ring = new GameObject() { Name = "Ring" };
             db_Player.Inventory.Add(ball);
