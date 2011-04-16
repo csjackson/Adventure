@@ -9,37 +9,14 @@ using Adventure.Data;
 namespace Adventure.Tests
 {
     [TestClass]
-    public class LookCommandTest
+    public class LookCommandTest : BaseTest
     {
         private LookCommand cmd;
         private IFormatter format;
-        private GameObject dbHallway;
-        private List<GameObject> dbList;
-        private GameObject dbRing;
-        private GameObject dbBall;
-        private GameObject dbPlayer;
-        private IConsoleFacade console;
-        private IRepository<GameObject> repository;
-        private IPlayer player;
-
+     
         [TestInitialize]
-        public void Before_Each_Test()
+        public void Before_Every_Test()
         {
-            console = MockRepository.GenerateMock<IConsoleFacade>();
-            repository = MockRepository.GenerateMock<IRepository<GameObject>>();
-            player = MockRepository.GenerateMock<IPlayer>();
-            dbPlayer = new GameObject() { GameObjectId = 3, Location = dbHallway, Location_Id = 8 };
-            player.Stub(qq => qq.Id).Return(3);
-            dbHallway = new GameObject() { Name = "Hallway", Description = " It's a hallway", GameObjectId = 8 };
-            dbBall = new GameObject() { Name = "Ball", Description = "A shiny rubber ball", Location = dbPlayer, Location_Id = 3 };
-            dbRing = new GameObject() { Name = "Ring", Description = "A simple gold ring", Location = dbHallway, Location_Id = 8 };
-            dbPlayer.Inventory.Add(dbBall);
-            dbHallway.Inventory.Add(dbPlayer);
-            dbHallway.Inventory.Add(dbRing);
-            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing };
-            repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
-
-
             format = new Formatter(console, repository);
             cmd = new LookCommand(console, repository, format, player);
         }
