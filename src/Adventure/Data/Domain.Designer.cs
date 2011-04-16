@@ -198,12 +198,10 @@ namespace Adventure.Data
         /// Create a new GameObject object.
         /// </summary>
         /// <param name="gameObjectId">Initial value of the GameObjectId property.</param>
-        /// <param name="type">Initial value of the Type property.</param>
-        public static GameObject CreateGameObject(global::System.Int32 gameObjectId, global::System.String type)
+        public static GameObject CreateGameObject(global::System.Int32 gameObjectId)
         {
             GameObject gameObject = new GameObject();
             gameObject.GameObjectId = gameObjectId;
-            gameObject.Type = type;
             return gameObject;
         }
 
@@ -257,7 +255,7 @@ namespace Adventure.Data
                 OnNameChanged();
             }
         }
-        private global::System.String _Name;
+        private global::System.String _Name = "";
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
     
@@ -281,7 +279,7 @@ namespace Adventure.Data
                 OnDescriptionChanged();
             }
         }
-        private global::System.String _Description;
+        private global::System.String _Description = "";
         partial void OnDescriptionChanging(global::System.String value);
         partial void OnDescriptionChanged();
     
@@ -329,7 +327,7 @@ namespace Adventure.Data
                 OnTypeChanged();
             }
         }
-        private global::System.String _Type;
+        private global::System.String _Type = "Item";
         partial void OnTypeChanging(global::System.String value);
         partial void OnTypeChanged();
 

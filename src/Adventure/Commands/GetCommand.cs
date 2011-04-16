@@ -28,19 +28,19 @@ namespace Adventure.Commands
             using (repository)
             {
                 var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
-                var item = repository.AsQueryable().FirstOrDefault(qq => qq.Name == output && 
+                var item = repository.AsQueryable().FirstOrDefault(qq => qq.Name.Equals(output, StringComparison.CurrentCultureIgnoreCase) && 
                         (qq.Location_Id == pObj.Location_Id || qq.Location_Id == player.Id));
                 if (item == null)
                 {
                     console.WriteLine("I do not see that, here.");
                     return;
                 }
-                else if (item.Location_Id == player.Id)
+                else if (item.Location == pObj)
                 {
                     console.WriteLine(("You already have that."));
                     return;
                 }
-                item.Location_Id = player.Id;
+                item.Location = pObj;
                 console.WriteLine("You pick up {0}", item.Name);
             }
         }

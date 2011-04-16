@@ -11,20 +11,37 @@ namespace Adventure.Tests
     [TestClass]
     public class LookCommandTest
     {
-        private IConsoleFacade mock;
         private LookCommand cmd;
-        private IRepository<GameObject> repository;
         private IFormatter format;
+        private GameObject dbHallway;
+        private List<GameObject> dbList;
+        private GameObject dbRing;
+        private GameObject dbBall;
+        private GameObject dbPlayer;
+        private IConsoleFacade console;
+        private IRepository<GameObject> repository;
         private IPlayer player;
 
         [TestInitialize]
         public void Before_Each_Test()
         {
-            mock = MockRepository.GenerateMock<IConsoleFacade>();
+            console = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
-            format = new Formatter(mock, repository);
             player = MockRepository.GenerateMock<IPlayer>();
-            cmd = new LookCommand(mock, repository, format, player);
+            dbPlayer = new GameObject() { GameObjectId = 3, Location = dbHallway, Location_Id = 8 };
+            player.Stub(qq => qq.Id).Return(3);
+            dbHallway = new GameObject() { Name = "Hallway", Description = " It's a hallway", GameObjectId = 8 };
+            dbBall = new GameObject() { Name = "Ball", Description = "A shiny rubber ball", Location = dbPlayer, Location_Id = 3 };
+            dbRing = new GameObject() { Name = "Ring", Description = "A simple gold ring", Location = dbHallway, Location_Id = 8 };
+            dbPlayer.Inventory.Add(dbBall);
+            dbHallway.Inventory.Add(dbPlayer);
+            dbHallway.Inventory.Add(dbRing);
+            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing };
+            repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
+
+
+            format = new Formatter(console, repository);
+            cmd = new LookCommand(console, repository, format, player);
         }
         [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
@@ -42,43 +59,35 @@ namespace Adventure.Tests
         {
             // Arrange
             // Already created via TestInitialize
-            repository.Stub(qq => qq.AsQueryable()).Return((new List<GameObject>() { }).AsQueryable());
 
             // Act
             cmd.Execute("look stupid");
             // Assert
-            mock.AssertWasCalled(qq => qq.WriteLine("I don't see that here."));
+            console.AssertWasCalled(qq => qq.WriteLine("I don't see that here."));
         }
 
         [TestMethod]
         public void Look_and_Name_Should_Return_Desc_of_Name()
         {
             // Arrange
-            var hallway = new GameObject() { Name = "Hallway", Description= "It's a hallway." };
-            var bar = new GameObject() { Name = "Bar", Description = "It's my kinda of place." };
-            var list = new List<GameObject>() { hallway, bar };
-            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
+           
             // Act
-            cmd.Execute("look Hallway");
+            cmd.Execute("look ball");
 
             // Assert
-            mock.AssertWasCalled(qq => qq.WriteLine("It's a hallway."));
+            console.AssertWasCalled(qq => qq.WriteLine(dbBall.Description));
             repository.AssertWasCalled(m => m.Dispose());
         }
         [TestMethod]
         public void Look_Alone_Should_Look_Here()
         {
             // Arrange
-            var hallway = new GameObject() { Name = "Hallway", Description = "It's a hallway.", GameObjectId = 8 };
-            
-            var bar = new GameObject() { Name = "Bar", Description = "It's my kinda of place." };
-            var list = new List<GameObject>() { hallway, bar };
-            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
+           
             // Act
-            cmd.Execute("look Hallway");
+            cmd.Execute("look");
 
             // Assert
-            mock.AssertWasCalled(qq => qq.WriteLine("It's a hallway."));
+            console.AssertWasCalled(qq => qq.WriteLine(dbHallway.Description));
             repository.AssertWasCalled(m => m.Dispose());
         }
 

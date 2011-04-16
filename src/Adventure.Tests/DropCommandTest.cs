@@ -11,10 +11,17 @@ namespace Adventure.Tests
     [TestClass]
     public class DropCommandTest
     {
+        private GameObject dbHallway;
+        private List<GameObject> dbList;
+        private GameObject dbRing;
+        private GameObject dbBall;
+        private GameObject dbPlayer;
            private IConsoleFacade console;
-        private DropCommand cmd;
         private IRepository<GameObject> repository;
         private IPlayer player;
+
+        private DropCommand cmd;
+
 
         [TestInitialize]
         public void Before_Each_Test()
@@ -22,7 +29,19 @@ namespace Adventure.Tests
             console = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
             player = MockRepository.GenerateMock<IPlayer>();
+            dbPlayer = new GameObject() { GameObjectId = 3, Location = dbHallway, Location_Id = 8 };
+            player.Stub(qq => qq.Id).Return(3);
+            dbHallway = new GameObject() {  Name = "Hallway", Description =" It's a hallway", GameObjectId = 8 };
+            dbBall = new GameObject() { Name = "Ball", Description= "A shiny rubber ball", Location = dbPlayer, Location_Id = 3 };
+            dbRing = new GameObject() { Name = "Ring", Description= "A simple gold ring", Location = dbHallway, Location_Id = 8 };
+            dbPlayer.Inventory.Add(dbBall);
+            dbHallway.Inventory.Add(dbPlayer);
+            dbHallway.Inventory.Add(dbRing);
+            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing };
+            repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
+
             cmd = new DropCommand(console, repository, player);
+
         }
         [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
@@ -52,39 +71,24 @@ namespace Adventure.Tests
         public void Execute_Should_Inform_If_Item_Not_in_Inventory()
         {
             // arrange
-            var db_Player = new GameObject() { GameObjectId = 3 };
-            var ball = new GameObject() { Name = "Ball", Location = db_Player };
-            var ring = new GameObject() { Name = "Ring" };
-            db_Player.Inventory.Add(ball);
-            var list = new List<GameObject>() { db_Player, ball, ring };
+            
 
-            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
-            player.Stub(qq => qq.Id).Return(3); 
 
             // Act
             cmd.Execute("drop ring");
             // Assert
-            console.AssertWasCalled(qq => qq.WriteLine("'{0}' not in inventory.", "Ring"));
+            console.AssertWasCalled(qq => qq.WriteLine("'{0}' not in inventory.", "ring"));
         }
         [TestMethod]
         public void Execute_Should_Change_Location_Of_Item_From_Inventory_to_Location_of_Player()
         {
         	 // arrange
-            var db_Hallway = new GameObject() { GameObjectId = 8 };
-            var db_Player = new GameObject() { GameObjectId = 3, Location= db_Hallway, Location_Id = 8 };
-            var ball = new GameObject() { Name = "Ball", Location = db_Player };
-            var ring = new GameObject() { Name = "Ring" };
-            db_Player.Inventory.Add(ball);
-            var list = new List<GameObject>() { db_Player, ball, ring };
-
-            repository.Stub(qq => qq.AsQueryable()).Return(list.AsQueryable());
-            player.Stub(qq => qq.Id).Return(3); 
-
+           
             // Act
             cmd.Execute("drop ball");
             // Assert
-            Assert.AreEqual(ball.Location_Id, db_Hallway.GameObjectId);
-            console.AssertWasCalled(qq => qq.WriteLine("You put down your {0}", "ball"));
+            Assert.AreEqual(dbBall.Location_Id, dbHallway.GameObjectId);
+            console.AssertWasCalled(qq => qq.WriteLine("You put down your {0}", dbBall.Name));
         }
     }
 }

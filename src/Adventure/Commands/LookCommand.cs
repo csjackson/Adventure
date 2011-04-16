@@ -39,7 +39,7 @@ namespace Adventure.Commands
               var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
               if (output == "here")
               {
-                  LookedAt = repository.AsQueryable().FirstOrDefault(qq => qq == pObj.Location);
+                  LookedAt = pObj.Location;
               }
               else
               {
@@ -48,11 +48,11 @@ namespace Adventure.Commands
                      (qq => (qq.Name == output) && (qq.Location == pObj.Location || qq.Location == pObj));
                  */
                  LookedAt = repository.AsQueryable().FirstOrDefault
-                      (qq => qq.Location == pObj.Location && qq.Name == output);
+                      (qq => qq.Location == pObj.Location && qq.Name.Equals(output, StringComparison.CurrentCultureIgnoreCase));
                 if (LookedAt == null)
                 {
                     LookedAt = repository.AsQueryable().FirstOrDefault
-                           (qq => qq.Location_Id == player.Id && qq.Name == output);
+                           (qq => qq.Location_Id == player.Id && qq.Name.Equals(output, StringComparison.CurrentCultureIgnoreCase));
                 }
 
                   // The Old Way:

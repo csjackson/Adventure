@@ -12,10 +12,15 @@ namespace Adventure.Tests
     [TestClass]
     public class GetCommandTest
     {
+        private GameObject dbHallway;
+        private List<GameObject> dbList;
+        private GameObject dbRing;
+        private GameObject dbBall;
+        private GameObject dbPlayer;
         private IConsoleFacade console;
-        private GetCommand cmd;
         private IRepository<GameObject> repository;
         private IPlayer player;
+        private GetCommand cmd;
 
         [TestInitialize]
         public void Before_Each_Test()
@@ -23,6 +28,18 @@ namespace Adventure.Tests
             console = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
             player = MockRepository.GenerateMock<IPlayer>();
+            dbPlayer = new GameObject() { GameObjectId = 3, Location = dbHallway, Location_Id = 8 };
+            player.Stub(qq => qq.Id).Return(3);
+            dbHallway = new GameObject() { Name = "Hallway", Description = " It's a hallway", GameObjectId = 8 };
+            dbBall = new GameObject() { Name = "Ball", Description = "A shiny rubber ball", Location = dbPlayer, Location_Id = 3 };
+            dbRing = new GameObject() { Name = "Ring", Description = "A simple gold ring", Location = dbHallway, Location_Id = 8 };
+            dbPlayer.Inventory.Add(dbBall);
+            dbHallway.Inventory.Add(dbPlayer);
+            dbHallway.Inventory.Add(dbRing);
+            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing };
+            repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
+
+
             cmd = new GetCommand(console, repository, player);
         }
         [TestMethod]
@@ -53,12 +70,7 @@ namespace Adventure.Tests
         public void Execute_Should_Inform_When_Item_Already_Held()
         {
             // Arrange
-             var db_Player = new GameObject() { GameObjectId = 3 };
-            var ball = new GameObject() { Name = "Ball", Location = db_Player };
-            var ring = new GameObject() { Name = "Ring" };
-            db_Player.Inventory.Add(ball);
-            var list = new List<GameObject>() { db_Player, ball, ring };
-
+            
             // Act
             cmd.Execute("get ball");
             // Assert
@@ -68,17 +80,10 @@ namespace Adventure.Tests
         public void Execute_Should_Inform_When_Item_Not_In_Room_with_Player()
         {
             // Arrange
-            var db_Hallway = new GameObject() { GameObjectId = 8 };
-            var db_Elsewhere = new GameObject() { GameObjectId = 12 };
-            var db_Player = new GameObject() { GameObjectId = 3, Location = db_Hallway };
-            var ball = new GameObject() { Name = "Ball", Location = db_Player, Location_Id = 8 };
-            var ring = new GameObject() { Name = "Ring", Location = db_Elsewhere, Location_Id = 12 };
-            db_Player.Inventory.Add(ball);
-            db_Elsewhere.Inventory.Add(ring);
-            var list = new List<GameObject>() { db_Player, ball, ring };
+          
 
             // Act
-            cmd.Execute("get ring");
+            cmd.Execute("get foo");
             // Assert
             console.AssertWasCalled(qq => qq.WriteLine("I do not see that, here."));
         }
@@ -87,19 +92,13 @@ namespace Adventure.Tests
         public void Execute_Should_Add_Item_To_Inventory()
         {
             // Arrange
-            var db_Hallway = new GameObject() { GameObjectId = 8 };
-            var db_Elsewhere = new GameObject() { GameObjectId = 12 };
-            var db_Player = new GameObject() { GameObjectId = 3, Location = db_Hallway };
-            var ball = new GameObject() { Name = "Ball", Location = db_Player };
-            var ring = new GameObject() { Name = "Ring", Location = db_Hallway };
-            db_Player.Inventory.Add(ball);
-            var list = new List<GameObject>() { db_Player, ball, ring };
+           
 
             // Act
             cmd.Execute("get ring");
             // Assert
-            Assert.AreEqual(ring.Location, db_Player);
-            console.AssertWasCalled(qq => qq.WriteLine("You pick up {0}", "ring"));
+            Assert.AreEqual(dbRing.Location, dbPlayer);
+            console.AssertWasCalled(qq => qq.WriteLine("You pick up {0}", dbRing.Name));
         }
     }
 }

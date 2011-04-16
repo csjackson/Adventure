@@ -64,10 +64,10 @@
             <PropertyRef Name="GameObjectId" />
           </Key>
           <Property Type="Int32" Name="GameObjectId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="false" DefaultValue="" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" DefaultValue="" />
           <Property Type="Int32" Name="Location_Id" />
-          <Property Type="String" Name="Type" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" DefaultValue="Item" />
           <NavigationProperty Name="Inventory" Relationship="Adventure.Domain.ForeignKeyConstraint1" FromRole="GameObject" ToRole="GameObject1" />
           <NavigationProperty Name="Location" Relationship="Adventure.Domain.ForeignKeyConstraint1" FromRole="GameObject1" ToRole="GameObject" />
         </EntityType>

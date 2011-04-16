@@ -31,7 +31,7 @@ namespace Adventure.Commands
             {
                  var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
                 var item = repository.AsQueryable()
-                    .FirstOrDefault(qq => qq.Name == output && qq.Location_Id == player.Id);
+                    .FirstOrDefault(qq => qq.Name.Equals(output, StringComparison.CurrentCultureIgnoreCase) && qq.Location == pObj);
                 if (item == null)
                 {
                     console.WriteLine("'{0}' not in inventory.", output);
