@@ -77,7 +77,7 @@ namespace Adventure.Tests
             cmd.Execute("l");
 
             // Asserrt
-            console.AssertWasCalled(qq => qq.Write("{0}  ", dbBall.Name));
+            console.AssertWasCalled(qq => qq.Write("{0}  ", dbRing.Name));
             console.AssertWasCalled(qq => qq.Write("{0}  ", dbPlayer.Name));
         }
         [TestMethod]
