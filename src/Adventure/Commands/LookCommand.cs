@@ -25,13 +25,16 @@ namespace Adventure.Commands
 
         public bool IsValid(string input)
         {
-            return IsFirstWord(input, "look"); 
+            var determination = ( IsFirstWord(input, "look") || IsFirstWord(input, "l"));
+            return determination;
         }
 
         public void Execute(string input)
         {
             var output = GetAllButFirstWord(input);
-            if (input == "look")
+            bool Placator = (input.Equals("l", StringComparison.CurrentCultureIgnoreCase)
+                || input.Equals("look", StringComparison.CurrentCultureIgnoreCase)); 
+            if (Placator)
                 output = "here";
             using (repository)
             {
@@ -40,6 +43,10 @@ namespace Adventure.Commands
               if (output == "here")
               {
                   LookedAt = pObj.Location;
+              }
+              else if (output== "me")
+              {
+                  LookedAt = pObj;
               }
               else
               {
@@ -66,6 +73,11 @@ namespace Adventure.Commands
                     }
               
                 format.Output(LookedAt);
+                console.WriteLine("{0} holds:", LookedAt.Name);
+                foreach (GameObject i in LookedAt.Inventory)
+                {
+                    console.Write("{0}  ", i.Name);
+                }
             }
         }
     }

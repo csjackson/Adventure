@@ -49,7 +49,7 @@ namespace Adventure.Tests
             // Arrange
            
             // Act
-            cmd.Execute("look ball");
+            cmd.Execute("l ball");
 
             // Assert
             console.AssertWasCalled(qq => qq.WriteLine(dbBall.Description));
@@ -66,6 +66,30 @@ namespace Adventure.Tests
             // Assert
             console.AssertWasCalled(qq => qq.WriteLine(dbHallway.Description));
             repository.AssertWasCalled(m => m.Dispose());
+        }
+
+        [TestMethod]
+        public void Look_Command_Should_Display_Inv_Of_Viewed()
+        {
+        	// Arrange
+
+            // Act 
+            cmd.Execute("l");
+
+            // Asserrt
+            console.AssertWasCalled(qq => qq.Write("{0}  ", dbBall.Name));
+            console.AssertWasCalled(qq => qq.Write("{0}  ", dbPlayer.Name));
+        }
+        [TestMethod]
+        public void LOOK_ME_Should_Return_Player_Desc()
+        {
+            // Arrange
+
+            // Act
+            cmd.Execute("look me");
+
+            // Assert
+            console.AssertWasCalled(qq => qq.WriteLine(dbPlayer.Description));
         }
 
     }

@@ -23,7 +23,9 @@ namespace Adventure.Commands
 
         public bool IsValid(string input)
         {
-            return (IsFirstWord(input, "inventory"));
+            var determination = 
+                ((IsFirstWord(input, "inventory")) || (IsFirstWord(input, "i")) || (IsFirstWord(input, "inv")));
+            return determination;
         }
 
         public void Execute(string input)

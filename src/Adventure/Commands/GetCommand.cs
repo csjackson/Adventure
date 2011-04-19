@@ -20,7 +20,8 @@ namespace Adventure.Commands
         }
         public bool IsValid(string input)
         {
-            return (IsFirstWord(input, "get"));
+            var determinator = ((IsFirstWord(input, "get")) || (IsFirstWord(input, "take")));
+            return determinator;
         }
         public void Execute(string input)
         {

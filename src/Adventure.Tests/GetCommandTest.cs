@@ -74,7 +74,7 @@ namespace Adventure.Tests
            
 
             // Act
-            cmd.Execute("get ring");
+            cmd.Execute("take ring");
             // Assert
             Assert.AreEqual(dbRing.Location, dbPlayer);
             console.AssertWasCalled(qq => qq.WriteLine("You pick up {0}", dbRing.Name));

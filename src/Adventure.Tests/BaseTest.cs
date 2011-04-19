@@ -26,7 +26,7 @@ namespace Adventure.Tests
             console = MockRepository.GenerateMock<IConsoleFacade>();
             repository = MockRepository.GenerateMock<IRepository<GameObject>>();
             player = MockRepository.GenerateMock<IPlayer>();
-            dbPlayer = new GameObject() { GameObjectId = 3, Location = dbHallway, Location_Id = 8 };
+            dbPlayer = new GameObject() { GameObjectId = 3, Location = dbHallway, Location_Id = 8, Description = "Just some dude." };
             player.Stub(qq => qq.Id).Return(3);
             dbHallway = new GameObject() { Name = "Hallway", Description = " It's a hallway", GameObjectId = 8 };
             dbBall = new GameObject() { Name = "Ball", Description = "A shiny rubber ball", Location = dbPlayer, Location_Id = 3 };
