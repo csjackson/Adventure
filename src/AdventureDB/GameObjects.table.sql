@@ -5,4 +5,5 @@
 	[Description] varchar(max) null,
 	Location_Id int null,
 	Type varchar(max) not null, 
+	[Destination] int null,
 )

@@ -7,10 +7,19 @@
     <Schema Namespace="Adventure.Domain.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="AdventureDomainStoreContainer">
           <EntitySet Name="__RefactorLog" EntityType="Adventure.Domain.Store.__RefactorLog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ExitAliases" EntityType="Adventure.Domain.Store.ExitAliases" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GameObjects" EntityType="Adventure.Domain.Store.GameObjects" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="ForeignKeyConstraint1" Association="Adventure.Domain.Store.ForeignKeyConstraint1">
             <End Role="GameObjects" EntitySet="GameObjects" />
             <End Role="GameObjects1" EntitySet="GameObjects" />
+          </AssociationSet>
+          <AssociationSet Name="ForeignKeyDestinationToObject" Association="Adventure.Domain.Store.ForeignKeyDestinationToObject">
+            <End Role="GameObjects" EntitySet="GameObjects" />
+            <End Role="GameObjects1" EntitySet="GameObjects" />
+          </AssociationSet>
+          <AssociationSet Name="ForeignKeyExitToAlias" Association="Adventure.Domain.Store.ForeignKeyExitToAlias">
+            <End Role="GameObjects" EntitySet="GameObjects" />
+            <End Role="ExitAliases" EntitySet="ExitAliases" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="__RefactorLog">
@@ -18,6 +27,14 @@
             <PropertyRef Name="OperationKey" />
           </Key>
           <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExitAliases">
+          <Key>
+            <PropertyRef Name="AliasId" />
+          </Key>
+          <Property Name="AliasId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ExitId" Type="int" Nullable="false" />
+          <Property Name="Alais" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="GameObjects">
           <Key>
@@ -28,6 +45,7 @@
           <Property Name="Description" Type="varchar(max)" />
           <Property Name="Location_Id" Type="int" />
           <Property Name="Type" Type="varchar(max)" Nullable="false" />
+          <Property Name="Destination" Type="int" />
         </EntityType>
         <Association Name="ForeignKeyConstraint1">
           <End Role="GameObjects" Type="Adventure.Domain.Store.GameObjects" Multiplicity="0..1" />
@@ -41,6 +59,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ForeignKeyDestinationToObject">
+          <End Role="GameObjects" Type="Adventure.Domain.Store.GameObjects" Multiplicity="0..1" />
+          <End Role="GameObjects1" Type="Adventure.Domain.Store.GameObjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameObjects">
+              <PropertyRef Name="GameObjectId" />
+            </Principal>
+            <Dependent Role="GameObjects1">
+              <PropertyRef Name="Destination" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ForeignKeyExitToAlias">
+          <End Role="GameObjects" Type="Adventure.Domain.Store.GameObjects" Multiplicity="1" />
+          <End Role="ExitAliases" Type="Adventure.Domain.Store.ExitAliases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameObjects">
+              <PropertyRef Name="GameObjectId" />
+            </Principal>
+            <Dependent Role="ExitAliases">
+              <PropertyRef Name="ExitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -49,6 +91,15 @@
           <EntitySet Name="C__RefactorLog" EntityType="Adventure.Domain.C__RefactorLog" />
           <EntitySet Name="GameObjects" EntityType="Adventure.Domain.GameObject" />
           <AssociationSet Name="ForeignKeyConstraint1" Association="Adventure.Domain.ForeignKeyConstraint1">
+            <End Role="GameObject" EntitySet="GameObjects" />
+            <End Role="GameObject1" EntitySet="GameObjects" />
+          </AssociationSet>
+          <EntitySet Name="ExitAliases" EntityType="Adventure.Domain.ExitAlias" />
+          <AssociationSet Name="ForeignKeyExitToAlias" Association="Adventure.Domain.ForeignKeyExitToAlias">
+            <End Role="GameObject" EntitySet="GameObjects" />
+            <End Role="ExitAlias" EntitySet="ExitAliases" />
+          </AssociationSet>
+          <AssociationSet Name="ForeignKeyDestinationToObject" Association="Adventure.Domain.ForeignKeyDestinationToObject">
             <End Role="GameObject" EntitySet="GameObjects" />
             <End Role="GameObject1" EntitySet="GameObjects" />
           </AssociationSet>
@@ -70,6 +121,10 @@
           <Property Type="String" Name="Type" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" DefaultValue="Item" />
           <NavigationProperty Name="Inventory" Relationship="Adventure.Domain.ForeignKeyConstraint1" FromRole="GameObject" ToRole="GameObject1" />
           <NavigationProperty Name="Location" Relationship="Adventure.Domain.ForeignKeyConstraint1" FromRole="GameObject1" ToRole="GameObject" />
+          <Property Type="Int32" Name="Destination" />
+          <NavigationProperty Name="ExitAliases" Relationship="Adventure.Domain.ForeignKeyExitToAlias" FromRole="GameObject" ToRole="ExitAlias" />
+          <NavigationProperty Name="GameObjects11" Relationship="Adventure.Domain.ForeignKeyDestinationToObject" FromRole="GameObject" ToRole="GameObject1" />
+          <NavigationProperty Name="GameObject2" Relationship="Adventure.Domain.ForeignKeyDestinationToObject" FromRole="GameObject1" ToRole="GameObject" />
         </EntityType>
         <Association Name="ForeignKeyConstraint1">
           <End Type="Adventure.Domain.GameObject" Role="GameObject" Multiplicity="0..1" />
@@ -80,6 +135,39 @@
             </Principal>
             <Dependent Role="GameObject1">
               <PropertyRef Name="Location_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExitAlias">
+          <Key>
+            <PropertyRef Name="AliasId" />
+          </Key>
+          <Property Type="Int32" Name="AliasId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ExitId" Nullable="false" />
+          <Property Type="String" Name="Alais" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GameObject" Relationship="Adventure.Domain.ForeignKeyExitToAlias" FromRole="ExitAlias" ToRole="GameObject" />
+        </EntityType>
+        <Association Name="ForeignKeyExitToAlias">
+          <End Type="Adventure.Domain.GameObject" Role="GameObject" Multiplicity="1" />
+          <End Type="Adventure.Domain.ExitAlias" Role="ExitAlias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameObject">
+              <PropertyRef Name="GameObjectId" />
+            </Principal>
+            <Dependent Role="ExitAlias">
+              <PropertyRef Name="ExitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ForeignKeyDestinationToObject">
+          <End Type="Adventure.Domain.GameObject" Role="GameObject" Multiplicity="0..1" />
+          <End Type="Adventure.Domain.GameObject" Role="GameObject1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameObject">
+              <PropertyRef Name="GameObjectId" />
+            </Principal>
+            <Dependent Role="GameObject1">
+              <PropertyRef Name="Destination" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -99,11 +187,21 @@
           <EntitySetMapping Name="GameObjects">
             <EntityTypeMapping TypeName="Adventure.Domain.GameObject">
               <MappingFragment StoreEntitySet="GameObjects">
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Location_Id" ColumnName="Location_Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="GameObjectId" ColumnName="GameObjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExitAliases">
+            <EntityTypeMapping TypeName="Adventure.Domain.ExitAlias">
+              <MappingFragment StoreEntitySet="ExitAliases">
+                <ScalarProperty Name="Alais" ColumnName="Alais" />
+                <ScalarProperty Name="ExitId" ColumnName="ExitId" />
+                <ScalarProperty Name="AliasId" ColumnName="AliasId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -131,10 +229,21 @@
         <EntityTypeShape EntityType="Adventure.Domain.C__RefactorLog" Width="1.5" PointX="0.875" PointY="1.5" Height="1.2110807291666674" />
         <EntityTypeShape EntityType="Adventure.Domain.GameObject" Width="1.5" PointX="3.375" PointY="0.75" Height="2.3648893229166656" />
         <AssociationConnector Association="Adventure.Domain.ForeignKeyConstraint1" >
-          <ConnectorPoint PointX="3.9069230769230767" PointY="3.1148893229166656" />
-          <ConnectorPoint PointX="3.9069230769230767" PointY="3.3648893229166656" />
-          <ConnectorPoint PointX="4.3534615384615378" PointY="3.3648893229166656" />
-          <ConnectorPoint PointX="4.3534615384615378" PointY="3.1148893229166656" />
+          <ConnectorPoint PointX="3.9069230769230767" PointY="3.8840950520833331" />
+          <ConnectorPoint PointX="3.9069230769230767" PointY="4.1340950520833335" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="4.1340950520833335" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="3.8840950520833331" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Adventure.Domain.ExitAlias" Width="1.5" PointX="6.375" PointY="1.125" Height="1.787985026041667" />
+        <AssociationConnector Association="Adventure.Domain.ForeignKeyExitToAlias" >
+          <ConnectorPoint PointX="4.875" PointY="2.0189925130208337" />
+          <ConnectorPoint PointX="6.375" PointY="2.0189925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="Adventure.Domain.ForeignKeyDestinationToObject" >
+          <ConnectorPoint PointX="3.9069230769230767" PointY="0.75" />
+          <ConnectorPoint PointX="3.9069230769230767" PointY="0.5" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="0.5" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="0.75" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

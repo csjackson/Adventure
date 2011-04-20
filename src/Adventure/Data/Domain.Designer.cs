@@ -19,6 +19,8 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("Adventure.Domain", "ForeignKeyConstraint1", "GameObject", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Adventure.Data.GameObject), "GameObject1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Adventure.Data.GameObject), true)]
+[assembly: EdmRelationshipAttribute("Adventure.Domain", "ForeignKeyExitToAlias", "GameObject", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Adventure.Data.GameObject), "ExitAlias", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Adventure.Data.ExitAlias), true)]
+[assembly: EdmRelationshipAttribute("Adventure.Domain", "ForeignKeyDestinationToObject", "GameObject", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Adventure.Data.GameObject), "GameObject1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Adventure.Data.GameObject), true)]
 
 #endregion
 
@@ -101,6 +103,22 @@ namespace Adventure.Data
             }
         }
         private ObjectSet<GameObject> _GameObjects;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ExitAlias> ExitAliases
+        {
+            get
+            {
+                if ((_ExitAliases == null))
+                {
+                    _ExitAliases = base.CreateObjectSet<ExitAlias>("ExitAliases");
+                }
+                return _ExitAliases;
+            }
+        }
+        private ObjectSet<ExitAlias> _ExitAliases;
 
         #endregion
         #region AddTo Methods
@@ -119,6 +137,14 @@ namespace Adventure.Data
         public void AddToGameObjects(GameObject gameObject)
         {
             base.AddObject("GameObjects", gameObject);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ExitAliases EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToExitAliases(ExitAlias exitAlias)
+        {
+            base.AddObject("ExitAliases", exitAlias);
         }
 
         #endregion
@@ -182,6 +208,154 @@ namespace Adventure.Data
 
         #endregion
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Adventure.Domain", Name="ExitAlias")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ExitAlias : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ExitAlias object.
+        /// </summary>
+        /// <param name="aliasId">Initial value of the AliasId property.</param>
+        /// <param name="exitId">Initial value of the ExitId property.</param>
+        /// <param name="alais">Initial value of the Alais property.</param>
+        public static ExitAlias CreateExitAlias(global::System.Int32 aliasId, global::System.Int32 exitId, global::System.String alais)
+        {
+            ExitAlias exitAlias = new ExitAlias();
+            exitAlias.AliasId = aliasId;
+            exitAlias.ExitId = exitId;
+            exitAlias.Alais = alais;
+            return exitAlias;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 AliasId
+        {
+            get
+            {
+                return _AliasId;
+            }
+            set
+            {
+                if (_AliasId != value)
+                {
+                    OnAliasIdChanging(value);
+                    ReportPropertyChanging("AliasId");
+                    _AliasId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("AliasId");
+                    OnAliasIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _AliasId;
+        partial void OnAliasIdChanging(global::System.Int32 value);
+        partial void OnAliasIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ExitId
+        {
+            get
+            {
+                return _ExitId;
+            }
+            set
+            {
+                OnExitIdChanging(value);
+                ReportPropertyChanging("ExitId");
+                _ExitId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ExitId");
+                OnExitIdChanged();
+            }
+        }
+        private global::System.Int32 _ExitId;
+        partial void OnExitIdChanging(global::System.Int32 value);
+        partial void OnExitIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Alais
+        {
+            get
+            {
+                return _Alais;
+            }
+            set
+            {
+                OnAlaisChanging(value);
+                ReportPropertyChanging("Alais");
+                _Alais = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Alais");
+                OnAlaisChanged();
+            }
+        }
+        private global::System.String _Alais;
+        partial void OnAlaisChanging(global::System.String value);
+        partial void OnAlaisChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyExitToAlias", "GameObject")]
+        public GameObject GameObject
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyExitToAlias", "GameObject").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyExitToAlias", "GameObject").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<GameObject> GameObjectReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyExitToAlias", "GameObject");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GameObject>("Adventure.Domain.ForeignKeyExitToAlias", "GameObject", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -330,6 +504,30 @@ namespace Adventure.Data
         private global::System.String _Type = "Item";
         partial void OnTypeChanging(global::System.String value);
         partial void OnTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Destination
+        {
+            get
+            {
+                return _Destination;
+            }
+            set
+            {
+                OnDestinationChanging(value);
+                ReportPropertyChanging("Destination");
+                _Destination = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Destination");
+                OnDestinationChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Destination;
+        partial void OnDestinationChanging(Nullable<global::System.Int32> value);
+        partial void OnDestinationChanged();
 
         #endregion
     
@@ -391,6 +589,88 @@ namespace Adventure.Data
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GameObject>("Adventure.Domain.ForeignKeyConstraint1", "GameObject", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyExitToAlias", "ExitAlias")]
+        public EntityCollection<ExitAlias> ExitAliases
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ExitAlias>("Adventure.Domain.ForeignKeyExitToAlias", "ExitAlias");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ExitAlias>("Adventure.Domain.ForeignKeyExitToAlias", "ExitAlias", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyDestinationToObject", "GameObject1")]
+        public EntityCollection<GameObject> GameObjects11
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameObject>("Adventure.Domain.ForeignKeyDestinationToObject", "GameObject1");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameObject>("Adventure.Domain.ForeignKeyDestinationToObject", "GameObject1", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyDestinationToObject", "GameObject")]
+        public GameObject GameObject2
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyDestinationToObject", "GameObject").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyDestinationToObject", "GameObject").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<GameObject> GameObject2Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameObject>("Adventure.Domain.ForeignKeyDestinationToObject", "GameObject");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GameObject>("Adventure.Domain.ForeignKeyDestinationToObject", "GameObject", value);
                 }
             }
         }

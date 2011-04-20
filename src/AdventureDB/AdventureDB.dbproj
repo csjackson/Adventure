@@ -86,5 +86,14 @@
     <Build Include="SomeTableOrView.ForeignKeyConstraint1.fkey.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="SomeTableOrView.ForeignKeyDestinationToLocation.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="ExitAliases.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="SomeTableOrView.ForeignKeyConstraint2.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>
