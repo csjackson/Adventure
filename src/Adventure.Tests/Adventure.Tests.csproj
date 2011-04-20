@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
     <Compile Include="CreateCommandTest.cs" />
+    <Compile Include="CreateExitTest.cs" />
     <Compile Include="DescribeCommandTest.cs" />
     <Compile Include="InventoryCommandTest.cs" />
     <Compile Include="LookCommandTest.cs" />

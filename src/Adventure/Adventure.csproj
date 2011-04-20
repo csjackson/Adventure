@@ -58,6 +58,7 @@
     <Compile Include="Commands\BonkCommand.cs" />
     <Compile Include="Commands\ClapCommand.cs" />
     <Compile Include="Commands\CreateCommand.cs" />
+    <Compile Include="Commands\CreateExitCommand.cs" />
     <Compile Include="Commands\DescribeCommand.cs" />
     <Compile Include="Commands\DropCommand.cs" />
     <Compile Include="Commands\Formatter.cs" />
