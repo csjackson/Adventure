@@ -19,6 +19,10 @@ namespace Adventure.Tests
         protected IConsoleFacade console;
         protected IRepository<GameObject> repository;
         protected IPlayer player;
+        protected IRepository<ExitAlias> aliasRepo;
+        protected List<ExitAlias> aliasList;
+        protected ExitAlias exit;
+        protected ExitAlias exit2;
 
         [TestInitialize]
         public void Before_Each_Test()
@@ -36,7 +40,11 @@ namespace Adventure.Tests
             dbHallway.Inventory.Add(dbRing);
             dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing };
             repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
-
+            aliasRepo = MockRepository.GenerateMock<IRepository<ExitAlias>>();
+            exit = new ExitAlias() { AliasId = 2, ExitId = 8, Alais = "Hallway" };
+            exit2 = new ExitAlias() { AliasId = 2, ExitId = 8, Alais = "Hall" };
+            aliasList = new List<ExitAlias> { exit, exit2 };
+            aliasRepo.Stub(qq => qq.AsQueryable()).Return(aliasList.AsQueryable());
 
         }
     }

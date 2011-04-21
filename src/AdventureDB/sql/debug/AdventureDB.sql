@@ -67,46 +67,6 @@ GO
 */
 
 GO
-PRINT N'Altering [dbo].[GameObjects]...';
-
-
-GO
-ALTER TABLE [dbo].[GameObjects]
-    ADD [Destination] INT NULL;
-
-
-GO
-PRINT N'Creating [dbo].[ExitAliases]...';
-
-
-GO
-CREATE TABLE [dbo].[ExitAliases] (
-    [AliasId] INT           IDENTITY (1, 1) NOT NULL,
-    [ExitId]  INT           NOT NULL,
-    [Alais]   VARCHAR (MAX) NOT NULL,
-    PRIMARY KEY CLUSTERED ([AliasId] ASC) WITH (ALLOW_PAGE_LOCKS = ON, ALLOW_ROW_LOCKS = ON, PAD_INDEX = OFF, IGNORE_DUP_KEY = OFF, STATISTICS_NORECOMPUTE = OFF)
-);
-
-
-GO
-PRINT N'Creating ForeignKeyExitToAlias...';
-
-
-GO
-ALTER TABLE [dbo].[ExitAliases] WITH NOCHECK
-    ADD CONSTRAINT [ForeignKeyExitToAlias] FOREIGN KEY ([ExitId]) REFERENCES [dbo].[GameObjects] ([GameObjectId]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
-GO
-PRINT N'Creating ForeignKeyDestinationToObject...';
-
-
-GO
-ALTER TABLE [dbo].[GameObjects] WITH NOCHECK
-    ADD CONSTRAINT [ForeignKeyDestinationToObject] FOREIGN KEY ([Destination]) REFERENCES [dbo].[GameObjects] ([GameObjectId]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
-GO
 /*
 Post-Deployment Script Template							
 --------------------------------------------------------------------------------------
@@ -118,19 +78,5 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-
-GO
-PRINT N'Checking existing data against newly created constraints';
-
-
-GO
-USE [$(DatabaseName)];
-
-
-GO
-ALTER TABLE [dbo].[ExitAliases] WITH CHECK CHECK CONSTRAINT [ForeignKeyExitToAlias];
-
-ALTER TABLE [dbo].[GameObjects] WITH CHECK CHECK CONSTRAINT [ForeignKeyDestinationToObject];
-
 
 GO

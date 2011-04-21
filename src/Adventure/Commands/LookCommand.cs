@@ -39,8 +39,9 @@ namespace Adventure.Commands
             using (repository)
             {
                 GameObject LookedAt = null;
-              var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
-              if (output == "here")
+                var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
+
+                if (output == "here")
               {
                   LookedAt = pObj.Location;
               }
