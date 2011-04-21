@@ -16,6 +16,7 @@ namespace Adventure.Tests
         protected GameObject dbRing;
         protected GameObject dbBall;
         protected GameObject dbPlayer;
+        protected GameObject dbExit;
         protected IConsoleFacade console;
         protected IRepository<GameObject> repository;
         protected IPlayer player;
@@ -35,14 +36,16 @@ namespace Adventure.Tests
             dbHallway = new GameObject() { Name = "Hallway", Description = " It's a hallway", GameObjectId = 8 };
             dbBall = new GameObject() { Name = "Ball", Description = "A shiny rubber ball", Location = dbPlayer, Location_Id = 3 };
             dbRing = new GameObject() { Name = "Ring", Description = "A simple gold ring", Location = dbHallway, Location_Id = 8 };
+            dbExit = new GameObject() {Name = "Exit", Description ="", Location= dbHallway, Location_Id = 8, GameObjectId = 16, Type = "Exit", Destination = 8 };
             dbPlayer.Inventory.Add(dbBall);
             dbHallway.Inventory.Add(dbPlayer);
             dbHallway.Inventory.Add(dbRing);
-            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing };
+            dbHallway.Inventory.Add(dbExit);
+            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing, dbExit };
             repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
             aliasRepo = MockRepository.GenerateMock<IRepository<ExitAlias>>();
-            exit = new ExitAlias() { AliasId = 2, ExitId = 8, Alais = "Hallway" };
-            exit2 = new ExitAlias() { AliasId = 2, ExitId = 8, Alais = "Hall" };
+            exit = new ExitAlias() { AliasId = 2, ExitId = 16, Alais = "Hallway" };
+            exit2 = new ExitAlias() { AliasId = 2, ExitId = 16, Alais = "Hall" };
             aliasList = new List<ExitAlias> { exit, exit2 };
             aliasRepo.Stub(qq => qq.AsQueryable()).Return(aliasList.AsQueryable());
 
