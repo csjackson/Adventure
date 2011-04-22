@@ -41,7 +41,7 @@ namespace Adventure.Tests
             dbHallway.Inventory.Add(dbPlayer);
             dbHallway.Inventory.Add(dbRing);
             dbHallway.Inventory.Add(dbExit);
-            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing, dbExit };
+            dbList = new List<GameObject>() { dbPlayer, dbBall, dbRing, dbExit, dbHallway };
             repository.Stub(qq => qq.AsQueryable()).Return(dbList.AsQueryable());
             aliasRepo = MockRepository.GenerateMock<IRepository<ExitAlias>>();
             exit = new ExitAlias() { AliasId = 2, ExitId = 16, Alais = "Hallway" };

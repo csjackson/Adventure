@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Rhino.Mocks;
+using Adventure.Data;
 using Adventure.Commands;
 
 namespace Adventure.Tests
@@ -39,12 +41,27 @@ namespace Adventure.Tests
                Assert.IsTrue(result);
            }
         [TestMethod]
-        public void Execute_Should_Test_If_Exit_In_Room_W_Player()
+        public void Execute_Should_Add_Aliases_For_An_Exit()
            {
                // Arrange
 
                 // Act
-                var result = cmd.Execute("aleasexit )
+                cmd.Execute("aliasexit exit=north, n");
+
+                // Assert
+                console.AssertWasCalled(m => m.WriteLine("Aliases for exit 'exit' now include: 'north' 'n'"));
+              
            }
+        [TestMethod]
+        public void Execute_Should_Test_If_Exit_In_Room_W_Player()
+        {
+        	// arrange
+
+            //act
+            cmd.Execute("alaisexit foo=north");
+
+            // Assert
+            console.AssertWasCalled(m => m.WriteLine("Exit '{0}' not visible.", "foo"));
+        }
     }
 }

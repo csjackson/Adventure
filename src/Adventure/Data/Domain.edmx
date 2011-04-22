@@ -227,23 +227,23 @@
     <Diagrams>
       <Diagram Name="Domain">
         <EntityTypeShape EntityType="Adventure.Domain.C__RefactorLog" Width="1.5" PointX="0.875" PointY="1.5" Height="1.2110807291666674" />
-        <EntityTypeShape EntityType="Adventure.Domain.GameObject" Width="1.5" PointX="3.375" PointY="0.75" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="Adventure.Domain.GameObject" Width="1.5" PointX="3.375" PointY="0.5" Height="3.1340950520833331" />
         <AssociationConnector Association="Adventure.Domain.ForeignKeyConstraint1" >
-          <ConnectorPoint PointX="3.9069230769230767" PointY="3.8840950520833331" />
-          <ConnectorPoint PointX="3.9069230769230767" PointY="4.1340950520833335" />
-          <ConnectorPoint PointX="4.3534615384615378" PointY="4.1340950520833335" />
-          <ConnectorPoint PointX="4.3534615384615378" PointY="3.8840950520833331" />
+          <ConnectorPoint PointX="3.9069230769230767" PointY="3.6340950520833331" />
+          <ConnectorPoint PointX="3.9069230769230767" PointY="3.8840950520833335" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="3.8840950520833335" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="3.6340950520833331" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Adventure.Domain.ExitAlias" Width="1.5" PointX="6.375" PointY="1.125" Height="1.787985026041667" />
+        <EntityTypeShape EntityType="Adventure.Domain.ExitAlias" Width="1.5" PointX="5.625" PointY="0.75" Height="1.787985026041667" />
         <AssociationConnector Association="Adventure.Domain.ForeignKeyExitToAlias" >
-          <ConnectorPoint PointX="4.875" PointY="2.0189925130208337" />
-          <ConnectorPoint PointX="6.375" PointY="2.0189925130208337" />
+          <ConnectorPoint PointX="4.875" PointY="1.6439925130208333" />
+          <ConnectorPoint PointX="5.625" PointY="1.6439925130208333" />
         </AssociationConnector>
         <AssociationConnector Association="Adventure.Domain.ForeignKeyDestinationToObject" >
-          <ConnectorPoint PointX="3.9069230769230767" PointY="0.75" />
           <ConnectorPoint PointX="3.9069230769230767" PointY="0.5" />
+          <ConnectorPoint PointX="3.9069230769230767" PointY="0.25" />
+          <ConnectorPoint PointX="4.3534615384615378" PointY="0.25" />
           <ConnectorPoint PointX="4.3534615384615378" PointY="0.5" />
-          <ConnectorPoint PointX="4.3534615384615378" PointY="0.75" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

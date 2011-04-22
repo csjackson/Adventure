@@ -16,7 +16,7 @@ namespace Adventure.Tests
         [TestInitialize]
         public void Before_Every_Test()
         {
-            cmd = new CreateExitCommand( console,  repository,  player, aliasRepo);
+            cmd = new CreateExitCommand( console,  repository,  player );
         }
         [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
@@ -48,9 +48,8 @@ namespace Adventure.Tests
             cmd.Execute("Createexit blah=Hallway");
             // Assert
             repository.AssertWasCalled(m => m.Add(Arg<GameObject>.Is.Anything));
-            //aliasRepo.AssertWasCalled(p => p.Add(Arg<ExitAlias>.Is.Anything));
-            //aliasRepo.AssertWasCalled(p => p.Dispose());
-            //console.AssertWasCalled(m => m.WriteLine("A new exit named '{0}' was created, leading to '{1}'", "blah", dbHallway.Name));
+           
+            console.AssertWasCalled(m => m.WriteLine("A new exit named '{0}' was created, leading to '{1}'", "blah", dbHallway.Name));
         }
         [TestMethod]
         public void CreateExit_Should_Check_For_Valid_Destination()

@@ -11,14 +11,13 @@ namespace Adventure.Commands
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
         private IPlayer player;
-        private IRepository<ExitAlias> aliases;
+
         public CreateExitCommand(IConsoleFacade console, 
-            IRepository<GameObject> repository, IPlayer player, IRepository<ExitAlias> aliases)
+            IRepository<GameObject> repository, IPlayer player) 
         {
             this.console = console;
             this.repository = repository;
             this.player = player;
-            this.aliases = aliases;
 
         }
         public bool IsValid(string input)
@@ -41,13 +40,6 @@ namespace Adventure.Commands
                     { Name = ExitName, Description = "",
                         Type = "Exit", Location = pObj.Location, Destination = destination.GameObjectId });
 
-                using (aliases)
-                {
-                    aliases.Add(new ExitAlias() 
-                        {ExitId = destination.GameObjectId, Alais = ExitName });
-                    aliases.Add(new ExitAlias() 
-                        { ExitId = destination.GameObjectId, Alais = destination.Name });
-                }
                 console.WriteLine("A new exit named '{0}' was created, leading to '{1}'", ExitName, destination.Name);
                 }
                 else
