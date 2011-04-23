@@ -66,6 +66,7 @@
     <Compile Include="Commands\GetCommand.cs" />
     <Compile Include="Commands\InventoryCommand.cs" />
     <Compile Include="Commands\LookCommand.cs" />
+    <Compile Include="Commands\MoveCommand.cs" />
     <Compile Include="Commands\RenameCommand.cs" />
     <Compile Include="Commands\TakeCommand.cs" />
     <Compile Include="ConsoleFacade.cs" />
