@@ -7,6 +7,7 @@ using Adventure.Commands;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using Castle.Facilities.TypedFactory;
 
 namespace Adventure
 {
@@ -17,6 +18,7 @@ namespace Adventure
             var container = new WindsorContainer();
             container.Kernel.Resolver.AddSubResolver(
                 new ArrayResolver(container.Kernel, false));
+            container.AddFacility<TypedFactoryFacility>();
             container.Register(
                 Component.For<ICommandController>().ImplementedBy<CommandController>().LifeStyle.Transient,
                 Component.For<IConsoleFacade>().ImplementedBy<ConsoleFacade>().LifeStyle.Transient,

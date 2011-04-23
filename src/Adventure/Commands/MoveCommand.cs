@@ -11,39 +11,49 @@ namespace Adventure.Commands
              private IConsoleFacade console;
         private IRepository<GameObject> repository;
         private IPlayer player;
-        private IRepository<ExitAlias> aliases;
         private IFormatter format;
+        private Func<IRepository<GameObject>> repoFactory;
 
         public MoveCommand(IConsoleFacade console,
-            IRepository<GameObject> repository, IPlayer player, IRepository<ExitAlias> aliases, IFormatter format)
+            Func<IRepository<GameObject>> repoFactory, IPlayer player, IFormatter format)
         {
             this.console = console;
-            this.repository = repository;
+            this.repoFactory = repoFactory;
             this.player = player;
-            this.aliases = aliases;
             this.format = format;
 
         }
         public bool IsValid(string input)
         {
-            bool placator = ((IsFirstWord(input, "move")) || (IsFirstWord(input, "go")));
-            return placator;
+            string InputHolder = input;
+            if  (((IsFirstWord(InputHolder, "move")) || (IsFirstWord(InputHolder, "go"))))
+            {
+                InputHolder = GetAllButFirstWord(input);
+            }
+            using (repository = repoFactory())
+            {
+                var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
+                var exit = pObj.Location.Inventory.Where(qq => qq.Type == "Exit").
+                    FirstOrDefault(qq => qq.ExitAliases.Any(ww => ww.Alais.Equals(InputHolder, StringComparison.CurrentCultureIgnoreCase))
+                        || qq.Name.Equals(InputHolder, StringComparison.CurrentCultureIgnoreCase));
+                return exit != null;
+            }
+          
         }
           public void Execute(string input)
         {
             string Output = GetAllButFirstWord(input);
-              ExitAlias ChosenExit = null;
-            using (aliases)
-            {
-                 ChosenExit = aliases.AsQueryable().First(qq => 
-                     qq.Alais.Equals(Output, StringComparison.CurrentCultureIgnoreCase) );
-            }
-              using (repository)
+            
+              using (repository = repoFactory())
               {
                   var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
-                  pObj.Location_Id = ChosenExit.ExitId;
-                  var LocNow = repository.AsQueryable().FirstOrDefault(qq => qq.GameObjectId == ChosenExit.ExitId);
-                  format.Output(LocNow);
+                  var WhichExit = pObj.Location.Inventory.FirstOrDefault(qq => (qq.Name.Equals
+                      (Output, StringComparison.CurrentCultureIgnoreCase)) && qq.Type=="Exit"); 
+                  if (WhichExit != null)
+                  {
+                      pObj.Location = WhichExit.DestinationLocation;
+                  }
+                  format.Output(pObj.Location);
               }
             
         }

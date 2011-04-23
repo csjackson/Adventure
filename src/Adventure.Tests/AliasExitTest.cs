@@ -10,15 +10,15 @@ using Adventure.Commands;
 namespace Adventure.Tests
 {
     [TestClass]
-    public class AliasExitTest :BaseTest
+    public class AliasExitTest : BaseTest
     {
         private AliasExitCommand cmd;
         [TestInitialize]
         public void Before_Every_Test()
         {
-            cmd = new AliasExitCommand(console, repository, player, aliasRepo);
+            cmd = new AliasExitCommand(console, repository, player);
         }
-           [TestMethod]
+        [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
         {
             // Arrange
@@ -29,33 +29,33 @@ namespace Adventure.Tests
             // Assert
             Assert.IsFalse(result);
         }
-           [TestMethod]
-           public void isValid_Should_Return_True_for_Valid_String()
-           {
-               // Arrange
+        [TestMethod]
+        public void isValid_Should_Return_True_for_Valid_String()
+        {
+            // Arrange
 
-               // Act
-               var result = cmd.IsValid("AliasExit Blah=north, n, Hallway, hall");
+            // Act
+            var result = cmd.IsValid("AliasExit Blah=north, n, Hallway, hall");
 
-               // Assert
-               Assert.IsTrue(result);
-           }
+            // Assert
+            Assert.IsTrue(result);
+        }
         [TestMethod]
         public void Execute_Should_Add_Aliases_For_An_Exit()
-           {
-               // Arrange
+        {
+            // Arrange
 
-                // Act
-                cmd.Execute("aliasexit exit=north, n");
+            // Act
+            cmd.Execute("aliasexit exit=foo, bar");
 
-                // Assert
-                console.AssertWasCalled(m => m.WriteLine("Aliases for exit 'exit' now include: 'north' 'n'"));
-              
-           }
+            // Assert
+            Assert.AreEqual(4, dbExit.ExitAliases.Count);
+
+        }
         [TestMethod]
         public void Execute_Should_Test_If_Exit_In_Room_W_Player()
         {
-        	// arrange
+            // arrange
 
             //act
             cmd.Execute("alaisexit foo=north");

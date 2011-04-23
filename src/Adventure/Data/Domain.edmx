@@ -123,8 +123,8 @@
           <NavigationProperty Name="Location" Relationship="Adventure.Domain.ForeignKeyConstraint1" FromRole="GameObject1" ToRole="GameObject" />
           <Property Type="Int32" Name="Destination" />
           <NavigationProperty Name="ExitAliases" Relationship="Adventure.Domain.ForeignKeyExitToAlias" FromRole="GameObject" ToRole="ExitAlias" />
-          <NavigationProperty Name="GameObjects11" Relationship="Adventure.Domain.ForeignKeyDestinationToObject" FromRole="GameObject" ToRole="GameObject1" />
-          <NavigationProperty Name="GameObject2" Relationship="Adventure.Domain.ForeignKeyDestinationToObject" FromRole="GameObject1" ToRole="GameObject" />
+          <NavigationProperty Name="InboundExits" Relationship="Adventure.Domain.ForeignKeyDestinationToObject" FromRole="GameObject" ToRole="GameObject1" />
+          <NavigationProperty Name="DestinationLocation" Relationship="Adventure.Domain.ForeignKeyDestinationToObject" FromRole="GameObject1" ToRole="GameObject" />
         </EntityType>
         <Association Name="ForeignKeyConstraint1">
           <End Type="Adventure.Domain.GameObject" Role="GameObject" Multiplicity="0..1" />

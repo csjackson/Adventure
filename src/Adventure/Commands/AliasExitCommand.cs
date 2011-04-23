@@ -11,14 +11,13 @@ namespace Adventure.Commands
         private IConsoleFacade console;
         private IRepository<GameObject> repository;
         private IPlayer player;
-        private IRepository<ExitAlias> aliases;
+
         public AliasExitCommand(IConsoleFacade console,
-            IRepository<GameObject> repository, IPlayer player, IRepository<ExitAlias> aliases)
+            IRepository<GameObject> repository, IPlayer player)
         {
             this.console = console;
             this.repository = repository;
             this.player = player;
-            this.aliases = aliases;
 
         }
         public bool IsValid(string input)
@@ -35,20 +34,21 @@ namespace Adventure.Commands
             using (repository)
             {
                 var pObj = repository.AsQueryable().First(qq => qq.GameObjectId == player.Id);
-                var exit = repository.AsQueryable().FirstOrDefault(qq => 
+                var exit = pObj.Location.Inventory.Where(qq => qq.Type == "Exit")
+                    .FirstOrDefault(qq =>
                     qq.Name.Equals(ExitName, StringComparison.CurrentCultureIgnoreCase));
-                if ((exit != null) && (pObj.Location == exit.Location))
+                if (exit != null)
                 {
-                    using (aliases)
-                    {
-                        console.WriteLine("Aliases for exit '{0}' now include: ", exit.Name);
 
-                        foreach (var member in commands)
-                        {
-                            aliases.Add(new ExitAlias() { ExitId = exit.GameObjectId, Alais = member.Trim() });
-                            console.Write(" '{0}'", member);
-                        }
+
+                    foreach (var member in commands)
+                    {
+                        exit.ExitAliases.Add(new ExitAlias() { ExitId = exit.GameObjectId, Alais = member.Trim() });
+                        console.Write(" '{0}'", member);
                     }
+                    console.WriteLine("Aliases for exit '{0}' now include: {1}", exit.Name, 
+                        string.Join(" ", commands.Select(qq => string.Format("'{0}'", qq.Trim()))));
+
                 }
                 else
                 {

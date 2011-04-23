@@ -622,7 +622,7 @@ namespace Adventure.Data
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyDestinationToObject", "GameObject1")]
-        public EntityCollection<GameObject> GameObjects11
+        public EntityCollection<GameObject> InboundExits
         {
             get
             {
@@ -644,7 +644,7 @@ namespace Adventure.Data
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Adventure.Domain", "ForeignKeyDestinationToObject", "GameObject")]
-        public GameObject GameObject2
+        public GameObject DestinationLocation
         {
             get
             {
@@ -660,7 +660,7 @@ namespace Adventure.Data
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<GameObject> GameObject2Reference
+        public EntityReference<GameObject> DestinationLocationReference
         {
             get
             {

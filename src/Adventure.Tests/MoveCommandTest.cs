@@ -18,7 +18,7 @@ namespace Adventure.Tests
         public void Before_Every_Test()
         {
             format = new Formatter(console, repository);
-            cmd = new MoveCommand(console, repository, player, aliasRepo, format);
+            cmd = new MoveCommand(console, () => repository, player, format);
         }
         [TestMethod]
         public void IsValid_Should_Return_False_for_Invalid_String()
@@ -32,23 +32,23 @@ namespace Adventure.Tests
             Assert.IsFalse(result);
         }
         [TestMethod]
-        public void isValid_Should_Return_True_for_Move_North()
+        public void isValid_Should_Return_True_for_Move_exit()
         {
             // Arrange
 
             // Act
-            var result = cmd.IsValid("move north");
+            var result = cmd.IsValid("move exit");
 
             // Assert
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public void isValid_Should_Return_True_for_Go_North()
+        public void isValid_Should_Return_True_for_Go_Exit()
         {
             // Arrange
 
             // Act
-            var result = cmd.IsValid("go north");
+            var result = cmd.IsValid("go exit");
 
             // Assert
             Assert.IsTrue(result);
